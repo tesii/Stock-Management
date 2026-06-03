@@ -1,0 +1,107 @@
+<div class="auth-page register-page">
+
+  <!-- LEFT PANEL -->
+  <section class="auth-panel animated-card">
+    <div class="panel-top">
+      <span class="brand-badge secondary">Instaplus Services Ltd</span>
+      <h1>Create your store profile</h1>
+      <p>
+        Join the team and start managing stock, approvals, and operations in one system.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span>🧾</span>
+        <p>Quick onboarding</p>
+      </div>
+
+      <div class="feature-card">
+        <span>🏬</span>
+        <p>Store roles</p>
+      </div>
+
+      <div class="feature-card">
+        <span>⚙️</span>
+        <p>Inventory control</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT FORM -->
+  <section class="form-card animated-card">
+
+    <!-- HEADER -->
+    <div class="form-header">
+      <div>
+        <p class="small-title">Create Account</p>
+        <h2>Register Staff Member</h2>
+      </div>
+    </div>
+
+    <!-- USERNAME -->
+    <div class="field-group">
+      <label>Username</label>
+      <input
+        class="input"
+        type="text"
+        [(ngModel)]="user.username"
+        name="username"
+        placeholder="Enter username"
+      />
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="field-group">
+      <label>Password</label>
+     <input
+  class="input"
+  type="password"
+  [(ngModel)]="user.password"
+  name="password"
+  placeholder="Enter password"
+  (input)="checkPassword($event.target.value)"
+/>
+    </div>
+
+    <!-- MESSAGE (ERROR / WARNING / SUCCESS) -->
+    <p
+      class="msg"
+      *ngIf="message"
+      [ngClass]="messageType"
+    >
+      {{ message }}
+    </p>
+
+    <!-- ROLE -->
+    <div class="field-group">
+      <label>Role</label>
+      <select
+        class="input"
+        [(ngModel)]="user.role"
+        name="role"
+      >
+        <option value="STORE_KEEPER">Store Keeper</option>
+        <option value="MANAGER">Manager</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+    </div>
+
+    <!-- SUBMIT BUTTON -->
+    <button
+      class="primary-btn"
+      (click)="register()"
+      [disabled]="isSubmitting"
+    >
+      {{ isSubmitting ? 'Creating account...' : 'Create Account' }}
+    </button>
+
+    <!-- LOGIN LINK -->
+    <p class="login-link">
+      Already have an account?
+      <a routerLink="/login">Login here</a>
+    </p>
+
+  </section>
+
+</div>

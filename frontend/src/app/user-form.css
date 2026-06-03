@@ -1,0 +1,5 @@
+.user-form { padding:20px; max-width:480px; background:#ffffff; border-radius:8px }
+label { display:block; margin-top:10px; font-weight:600; color:#0b2f36 }
+input,select { width:100%; padding:10px; margin-top:6px; border:1px solid #e6f0f2; border-radius:6px }
+button { margin-top:14px; padding:10px 14px; background:#164e59; color:#fff; border:none; border-radius:6px }
+

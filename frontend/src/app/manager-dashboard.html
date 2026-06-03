@@ -1,0 +1,123 @@
+<div class="manager-dashboard">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+
+    <h3>Manager</h3>
+
+    <nav>
+      <a (click)="setView('dashboard')" [class.active]="currentView === 'dashboard'">
+        Dashboard
+      </a>
+
+      <a (click)="setView('approvals')" [class.active]="currentView === 'approvals'">
+        Stock Approvals
+      </a>
+
+      <a (click)="setView('summary')" [class.active]="currentView === 'summary'">
+        📊 Reports
+      </a>
+    </nav>
+
+    <button class="logout-btn" (click)="logout()">
+      🚪 Logout
+    </button>
+
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section *ngIf="currentView === 'dashboard'">
+      <app-dashboard></app-dashboard>
+    </section>
+
+    <!-- APPROVALS -->
+    <section *ngIf="currentView === 'approvals'">
+      <app-stock-approval></app-stock-approval>
+    </section>
+
+    <!-- SUMMARY -->
+    <section *ngIf="currentView === 'summary'">
+
+      <div class="dashboard-hero">
+        <h2>📊 Stock Summary Report</h2>
+      </div>
+
+      <!-- CHART -->
+      <div class="chart-box">
+        <canvas
+          baseChart
+          [data]="chartDataConfig"
+          [type]="'bar'">
+        </canvas>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="report-controls">
+
+        <select [(ngModel)]="selectedMonth" (change)="filterByMonth()">
+          <option value="">All Months</option>
+
+          <option *ngFor="let m of months" [value]="m">
+            {{ m }}
+          </option>
+        </select>
+
+        <button class="download-btn" (click)="downloadPDF()">
+          📥 Download PDF
+        </button>
+
+      </div>
+
+      <!-- TABLE -->
+      <div class="report-table">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty IN</th>
+              <th>Qty OUT</th>
+              <th>Total Qty </th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let s of paginatedSummary">
+              <td>{{ s.itemName }}</td>
+              <td>{{ s.qin }}</td>
+              <td>{{ s.qout }}</td>
+              <td>{{ s.qtotal }}</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination">
+
+        <button (click)="prevPage()" [disabled]="currentPage === 1">
+          Prev
+        </button>
+
+        <span>
+          Page {{ currentPage }} / {{ totalPages }}
+        </span>
+
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+          Next
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

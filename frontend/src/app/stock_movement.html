@@ -1,0 +1,51 @@
+<h2>📦 Stock IN / OUT</h2>
+
+<div class="form-container">
+
+  <!-- ITEM -->
+  <label>Item</label>
+  <select [(ngModel)]="form.itemId">
+    <option *ngFor="let item of items" [value]="item.id">
+      {{ item.name }}
+    </option>
+  </select>
+
+  <br><br>
+
+  <!-- TYPE -->
+  <label>Type</label>
+  <select [(ngModel)]="form.type">
+    <option value="IN">IN</option>
+    <option value="OUT">OUT</option>
+  </select>
+
+  <br><br>
+
+  <!-- QUANTITY -->
+  <label>Quantity</label>
+  <input type="number" [(ngModel)]="form.quantity">
+
+  <br><br>
+
+  <!-- DATE (NEW ⭐) -->
+  <label>Date</label>
+  <input type="date" [(ngModel)]="form.date">
+
+  <br><br>
+
+  <!-- SITE -->
+  <label>Site (optional)</label>
+  <input type="text" [(ngModel)]="form.site">
+
+  <br><br>
+
+  <!-- NOTE -->
+  <label>Note</label>
+  <input type="text" [(ngModel)]="form.note">
+
+  <br><br>
+
+  <!-- SUBMIT -->
+  <button (click)="submit()">Submit</button>
+
+</div>

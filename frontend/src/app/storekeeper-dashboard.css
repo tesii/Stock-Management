@@ -1,0 +1,479 @@
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.store-dashboard {
+  display: flex;
+  gap: 16px;
+  background: #eaf6f9;
+  padding: 18px;
+  border-radius: 12px;
+  min-height: calc(100vh - 36px);
+}
+
+/* ══════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════ */
+.sidebar {
+  width: 210px;
+  background: #164e59;
+  color: #fff;
+  padding: 18px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-brand i {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.sidebar-role {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 20px;
+  padding-left: 26px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 10px;
+  border-radius: 7px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13.5px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: background 0.15s;
+}
+
+.sidebar nav a i {
+  font-size: 16px;
+}
+
+.sidebar nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.sidebar nav a.active {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-weight: 500;
+}
+
+.logout-btn {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13.5px;
+  transition: background 0.15s;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ══════════════════════════════════════════
+   MAIN PANEL
+══════════════════════════════════════════ */
+.main {
+  flex: 1;
+  background: #fff;
+  border-radius: 10px;
+  padding: 22px;
+  min-width: 0;
+}
+
+/* ══════════════════════════════════════════
+   DASHBOARD VIEW
+══════════════════════════════════════════ */
+.dashboard-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 0.5px solid #e2e8f0;
+  margin-bottom: 18px;
+}
+
+.welcome-label {
+  margin: 0 0 6px;
+  color: #0f766e;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.dashboard-hero h2 {
+  margin: 0 0 4px;
+  font-size: 1.7rem;
+  color: #0f1724;
+  font-weight: 500;
+}
+
+.dashboard-hero p {
+  margin: 0;
+  color: #475569;
+  font-size: 14px;
+}
+
+.notification-pill {
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #0f6e56;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.notification-panel {
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 0.5px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.notification-panel h3 {
+  margin: 0 0 10px;
+  color: #0f1724;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.notification-panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notification-panel li {
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 0.5px solid #e2e8f0;
+  font-size: 13.5px;
+  color: #0f1724;
+}
+
+/* ══════════════════════════════════════════
+   SUMMARY VIEW — HEADER + FILTER
+══════════════════════════════════════════ */
+.summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #0f1724;
+}
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.filter-label i {
+  font-size: 15px;
+}
+
+.filter-bar select {
+  padding: 7px 10px;
+  border-radius: 7px;
+  border: 0.5px solid #cbd5e1;
+  font-size: 13px;
+  background: #f8fafc;
+  color: #0f1724;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.filter-bar select:focus {
+  border-color: #0f766e;
+}
+
+/* ══════════════════════════════════════════
+   STAT CARDS
+══════════════════════════════════════════ */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.stat-card {
+  padding: 14px 16px;
+  border-radius: 9px;
+  border: 0.5px solid #e2e8f0;
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.stat-in                         { background: #f0fdf9; }
+.stat-in  .stat-label,
+.stat-in  .stat-value            { color: #0f6e56; }
+
+.stat-out                        { background: #fff7f4; }
+.stat-out .stat-label,
+.stat-out .stat-value            { color: #993c1d; }
+
+.stat-low                        { background: #fff8f0; }
+.stat-low .stat-label,
+.stat-low .stat-value            { color: #854f0b; }
+
+/* ══════════════════════════════════════════
+   CHART CARD
+══════════════════════════════════════════ */
+.chart-card {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 18px;
+  border: 0.5px solid #e2e8f0;
+}
+
+.chart-title {
+  font-size: 11px;
+  color: #475569;
+  font-weight: 500;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* ══════════════════════════════════════════
+   STOCK TABLE
+══════════════════════════════════════════ */
+/* ================= TABLE BASE ================= */
+
+/* ================= TABLE BASE ================= */
+
+.weekly-report table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #000; /* OUTER BORDER */
+}
+
+/* ================= HEADERS ================= */
+
+.weekly-report thead th {
+  background: #f3f4f6;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 12px;
+  border: 1px solid #000; /* BLACK GRID */
+  color: #111;
+}
+
+/* ================= CELLS ================= */
+
+.weekly-report td {
+  padding: 11px 14px;
+  font-size: 13.5px;
+  color: #0f1724;
+  border: 1px solid #000; /* BLACK COLUMN LINES */
+  background: transparent;
+}
+
+/* ================= FULL ROW COLORS ================= */
+
+.weekly-report tbody tr.low td {
+  background-color: #fee2e2 !important;
+  color: #991b1b;
+}
+
+.weekly-report tbody tr.average td {
+  background-color: #fef9c3 !important;
+  color: #854d0e;
+}
+
+.weekly-report tbody tr.high td {
+  background-color: #dcfce7 !important;
+  color: #166534;
+}
+
+/* ================= HOVER ================= */
+
+.weekly-report tbody tr.low:hover td,
+.weekly-report tbody tr.average:hover td,
+.weekly-report tbody tr.high:hover td {
+  filter: brightness(0.95);
+}
+.low-stock td {
+  background: #fff1f0 !important;
+}
+
+.low-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.empty-row {
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 24px;
+}
+.notification-btn {
+  position: relative;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.notification-badge {
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 8px;
+  margin-left: 8px;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.low-stock {
+  background-color: #fff3cd;
+  color: #856404;
+  font-weight: 600;
+}
+.summary-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.download-btn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.download-btn:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+}
+/* ================= TABLE STATUS ROWS ================= */
+
+
+/* ================= BADGE ================= */
+
+.stock-badge {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+
+
+.stock-badge {
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+/* ================= ROW COLORS ================= */
+
+/* 
+/* Optional hover effect */
+
+
+/* ================= BADGES ================= */
+
+.stock-badge.low {
+  background: #ef4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.stock-badge.average {
+  background: #eab308; /* yellow */
+  color: black;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.stock-badge.high {
+  background: #22c55e;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}

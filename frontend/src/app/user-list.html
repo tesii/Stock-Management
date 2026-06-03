@@ -1,0 +1,50 @@
+<div class="users-container">
+
+  <div class="header">
+    <h3>👥 User Management</h3>
+
+    <a routerLink="/user-form" class="btn-primary">
+      ➕ New User
+    </a>
+  </div>
+
+  <table class="users-table">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th style="width:180px;">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let u of users">
+
+        <td>{{ u['id'] }}</td>
+        <td>{{ u['username'] }}</td>
+        <td>
+          <span class="role-badge">{{ u['role'] }}</span>
+        </td>
+
+        <td class="actions">
+          <a
+            [routerLink]="['/user-form']"
+            [queryParams]="{id: u['id']}"
+            class="edit-btn"
+          >
+            Edit
+          </a>
+
+          <button (click)="deleteUser(u['id'])" class="delete-btn">
+            Delete
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>

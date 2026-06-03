@@ -1,0 +1,41 @@
+<div class="container">
+
+  <h2>📦 Pending Stock Approvals</h2>
+
+  <table border="1" width="100%" cellpadding="10">
+
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Site</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let m of pending">
+
+        <td>{{ m.itemId }}</td>
+        <td>{{ m.type }}</td>
+        <td>{{ m.quantity }}</td>
+        <td>{{ m.site }}</td>
+        <td>{{ m.date }}</td>
+        <td>{{ m.status }}</td>
+
+        <td>
+          <button (click)="approve(m.id!)">Approve</button>
+          <button (click)="reject(m.id!)" style="background:red;color:white;">
+            Reject
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>

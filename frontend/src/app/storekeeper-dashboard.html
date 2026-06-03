@@ -1,0 +1,243 @@
+<div class="store-dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+      <i class="ti ti-building-store"></i>
+      <span>InstaPlus Service Ltd</span>
+    </div>
+
+    <p class="sidebar-role">Store Keeper</p>
+
+    <nav>
+      <a (click)="setView('dashboard')" [class.active]="currentView === 'dashboard'">
+        <i class="ti ti-layout-dashboard"></i>
+        Dashboard
+      </a>
+
+      <a (click)="setView('stock')" [class.active]="currentView === 'stock'">
+        <i class="ti ti-arrows-exchange"></i>
+        Stock Movement
+      </a>
+
+      <a (click)="setView('summary')" [class.active]="currentView === 'summary'">
+        <i class="ti ti-chart-bar"></i>
+        Stock Summary
+      </a>
+    </nav>
+
+    <button class="logout-btn" (click)="logout()">
+      <i class="ti ti-logout"></i>
+      Logout
+    </button>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <div *ngIf="currentView === 'dashboard'">
+
+      <div class="dashboard-hero">
+
+        <div>
+          <p class="welcome-label">Store Keeper Portal</p>
+          <h2>Welcome, {{ userName }}</h2>
+          <p>Here's a snapshot of today's activity.</p>
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="notification-area">
+
+          <button class="notification-btn" (click)="toggleNotifications()">
+            🔔 Notifications
+
+            <span class="notification-badge" *ngIf="notificationCount > 0">
+              {{ notificationCount }}
+            </span>
+          </button>
+
+          <div class="notification-panel" *ngIf="showNotifications">
+            <h3>Notifications</h3>
+            <ul>
+              <li *ngFor="let n of notifications">
+                {{ n }}
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- STOCK MOVEMENT -->
+    <div *ngIf="currentView === 'stock'">
+      <app-stock-movement></app-stock-movement>
+    </div>
+
+    <!-- STOCK SUMMARY -->
+    <div *ngIf="currentView === 'summary'">
+
+      <!-- HEADER -->
+      <div class="summary-header">
+
+        <h2 class="section-title">Stock Summary</h2>
+
+        <div class="filter-bar">
+
+          <label for="monthFilter">📅 Filter by Month</label>
+
+          <select id="monthFilter"
+                  [(ngModel)]="selectedMonth"
+                  (change)="filterByMonth()">
+
+            <option value="">All Months</option>
+
+            <option *ngFor="let m of months" [value]="m">
+              {{ m }}
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- STATS -->
+      <div class="stat-grid" *ngIf="chartData.length > 0">
+
+        <div class="stat-card stat-in">
+          <h4>Total IN</h4>
+          <p>{{ chartData[0].value }}</p>
+        </div>
+
+        <div class="stat-card stat-out">
+          <h4>Total OUT</h4>
+          <p>{{ chartData[1].value }}</p>
+        </div>
+
+        <div class="stat-card stat-low">
+          <h4>Low Stock Items</h4>
+          <p>{{ lowStockItemIds.size }}</p>
+        </div>
+
+      </div>
+
+      <!-- CHART -->
+      <div class="chart-card" *ngIf="chartData.length > 0">
+
+        <h3>IN vs OUT Overview</h3>
+
+        <svg width="100%" height="220" viewBox="0 0 340 180">
+
+          <rect
+            x="70"
+            width="80"
+            [attr.y]="140 - (chartData[0].value / maxChartValue() * 110)"
+            [attr.height]="chartData[0].value / maxChartValue() * 110"
+            fill="#22c55e">
+          </rect>
+
+          <text x="110" y="160" text-anchor="middle">IN</text>
+
+          <text x="110"
+                [attr.y]="130 - (chartData[0].value / maxChartValue() * 110)"
+                text-anchor="middle">
+            {{ chartData[0].value }}
+          </text>
+
+          <rect
+            x="200"
+            width="80"
+            [attr.y]="140 - (chartData[1].value / maxChartValue() * 110)"
+            [attr.height]="chartData[1].value / maxChartValue() * 110"
+            fill="#ef4444">
+          </rect>
+
+          <text x="240" y="160" text-anchor="middle">OUT</text>
+
+          <text x="240"
+                [attr.y]="130 - (chartData[1].value / maxChartValue() * 110)"
+                text-anchor="middle">
+            {{ chartData[1].value }}
+          </text>
+
+        </svg>
+
+      </div>
+
+      <!-- DOWNLOAD BUTTON -->
+      <div class="summary-actions">
+        <button class="download-btn" (click)="downloadPDF()">
+          📥 Download Monthly Summary (PDF)
+        </button>
+      </div>
+
+      <!-- TABLE -->
+      <div class="weekly-report">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>QIN</th>
+              <th>QOUT</th>
+              <th>Stock Left</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+           <tr *ngFor="let s of paginatedStock"
+    [ngClass]="s.status.toLowerCase()">
+
+              <td>{{ s.itemName }}</td>
+              <td>{{ s.qin }}</td>
+              <td>{{ s.qout }}</td>
+              <td>
+                <span class="stock-badge" [ngClass]="s.status">
+                  {{ s.qtotal }}
+                </span>
+              </td>
+              <td>{{ s.status }}</td>
+
+            </tr>
+
+            <tr *ngIf="paginatedStock.length === 0">
+              <td colspan="5">No stock data available.</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination" *ngIf="stockSummary.length > pageSize">
+
+        <button (click)="prevPage()" [disabled]="currentPage === 1">
+          ◀ Previous
+        </button>
+
+        <span>
+          Page {{ currentPage }} / {{ totalPages }}
+        </span>
+
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+          Next ▶
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

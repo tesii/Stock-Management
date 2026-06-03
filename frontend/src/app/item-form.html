@@ -1,0 +1,29 @@
+<div class="form-container">
+  <h2>➕ Add Item</h2>
+
+  <form (ngSubmit)="saveItem()">
+
+    <label>Name</label>
+    <input [(ngModel)]="item.name" name="name">
+
+    <label>Quantity</label>
+    <input type="number" [(ngModel)]="item.quantity" name="quantity">
+
+    <label>Unit</label>
+    <input [(ngModel)]="item.unit" name="unit">
+
+    <label>Unit Price</label>
+    <input type="number" [(ngModel)]="item.unitPrice" name="unitPrice">
+
+    <!-- ✅ NEW FIELD -->
+    <label>Min Stock Level</label>
+    <input
+      type="number"
+      [(ngModel)]="item.minStockLevel"
+      name="minStockLevel"
+    >
+
+    <button type="submit">Save</button>
+
+  </form>
+</div>

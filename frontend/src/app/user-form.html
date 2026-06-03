@@ -1,0 +1,17 @@
+<div class="user-form">
+  <h3>{{ id ? 'Edit User' : 'New User' }}</h3>
+  <label>Username</label>
+  <input [(ngModel)]="username" />
+  <label *ngIf="!id">Password</label>
+  <input *ngIf="!id" [(ngModel)]="password" type="password" />
+  <label>Role</label>
+  <select [(ngModel)]="role">
+    <option value="STORE_KEEPER">STORE_KEEPER</option>
+    <option value="MANAGER">MANAGER</option>
+    <option value="ADMIN">ADMIN</option>
+  </select>
+  <div style="margin-top:10px">
+    <button (click)="save()">Save</button>
+    <a routerLink="/users">Cancel</a>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="admin-dashboard">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+
+    <h3>Instaplus Service Ltd</h3>
+
+   <nav>
+  <a (click)="setView('dashboard')" [class.active]="currentView === 'dashboard'">
+    Overview
+  </a>
+
+  <a (click)="setView('users')" [class.active]="currentView === 'users'">
+    User Management
+  </a>
+
+  <a (click)="setView('user-form')" [class.active]="currentView === 'user-form'">
+    Create User
+  </a>
+
+  <a (click)="setView('items')" [class.active]="currentView === 'items'">
+    Inventory
+  </a>
+
+  <a (click)="setView('stock')" [class.active]="currentView === 'stock'">
+    Stock Purchase
+  </a>
+
+  <a (click)="setView('metrics')" [class.active]="currentView === 'metrics'">
+    System Analytics
+  </a>
+</nav>
+
+    <button class="logout-btn" (click)="logout()">
+      🚪 Sign Out
+    </button>
+
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <!-- ================= HEADER ================= -->
+    <section class="dashboard-hero">
+
+      <div>
+        <p class="welcome-label">Administrator Access</p>
+        <h2>Welcome, {{ userName }} 👋</h2>
+        <p>
+          Full system control panel for users, inventory, approvals, and operational monitoring.
+        </p>
+      </div>
+
+      <!-- 🔔 NOTIFICATION BADGE (for click-based system) -->
+      <div class="notification-badge" (click)="toggleNotifications()">
+        🔔 Alerts
+      </div>
+
+    </section>
+
+    <!-- ================= NOTIFICATIONS (CLICK TO SHOW) ================= -->
+    <section class="notification-panel" *ngIf="showNotifications">
+
+      <h3>System Alerts</h3>
+
+      <ul class="alert-list">
+        <li *ngFor="let note of notifications" class="alert-item">
+          {{ note }}
+        </li>
+      </ul>
+
+    </section>
+
+    <!-- ================= VIEWS ================= -->
+
+    <div *ngIf="currentView === 'dashboard'" class="view-section">
+      <app-dashboard></app-dashboard>
+    </div>
+
+    <div *ngIf="currentView === 'users'" class="view-section">
+      <app-user-list></app-user-list>
+    </div>
+
+    <div *ngIf="currentView === 'user-form'" class="view-section">
+      <app-user-form></app-user-form>
+    </div>
+
+   
+
+    <div *ngIf="currentView === 'items'" class="view-section">
+      <app-item-list></app-item-list>
+    </div>
+
+    <div *ngIf="currentView === 'stock'" class="view-section">
+      <app-stock-movement></app-stock-movement>
+    </div>
+
+    <!-- ================= SYSTEM ANALYTICS ================= -->
+    <div *ngIf="currentView === 'metrics'" class="view-section admin-metrics">
+
+      <h3>System Analytics</h3>
+
+      <div class="metric-grid">
+
+        <div class="metric-card">
+          <div class="metric-label">Registered Users</div>
+          <div class="metric-value">{{ totalUsers }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Inventory Items</div>
+          <div class="metric-value">{{ totalItems }}</div>
+        </div>
+
+       
+
+        <div class="metric-card">
+          <div class="metric-label">System Status</div>
+          <div class="metric-value">🟢 Operational</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

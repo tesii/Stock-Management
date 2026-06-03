@@ -1,0 +1,112 @@
+<div class="ip-page">
+
+  <!-- LEFT PANEL — Form -->
+  <div class="ip-left">
+
+    <div class="ip-brand">
+      <div class="ip-logo-box">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2"    y="12" width="3.5" height="6"    rx="1" fill="white"/>
+          <rect x="8.25" y="7.5" width="3.5" height="10.5" rx="1" fill="white" opacity="0.85"/>
+          <rect x="14.5" y="2"  width="3.5" height="16"   rx="1" fill="white" opacity="0.65"/>
+        </svg>
+      </div>
+      <div>
+        <div class="ip-brand-name">Instaplus</div>
+        <span class="ip-brand-tag">Service Ltd</span>
+      </div>
+    </div>
+
+    <h2 class="ip-heading">Sign In</h2>
+    <div class="ip-underline"></div>
+    <p class="ip-sub">Access your stock management dashboard</p>
+
+    <!-- USERNAME -->
+    <div class="ip-field">
+      <label class="ip-label">Username</label>
+      <div class="ip-inp-wrap">
+        <input
+          class="ip-input"
+          type="text"
+          placeholder="Enter your username"
+          [(ngModel)]="username"
+          name="username"
+        />
+        <i class="ti ti-user ip-inp-icon" aria-hidden="true"></i>
+        <div class="ip-inp-border"></div>
+      </div>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="ip-field">
+      <label class="ip-label">Password</label>
+      <div class="ip-inp-wrap">
+        <input
+          class="ip-input"
+          type="password"
+          placeholder="Enter your password"
+          [(ngModel)]="password"
+          name="password"
+        />
+        <i class="ti ti-lock ip-inp-icon" aria-hidden="true"></i>
+        <div class="ip-inp-border"></div>
+      </div>
+    </div>
+
+    <!-- OPTIONS -->
+    <div class="ip-opt-row">
+      <label class="ip-chk-label">
+        <input type="checkbox" class="ip-chk" />
+        Remember me
+      </label>
+      <a class="ip-forgot" routerLink="/forgot-password">Forgot password?</a>
+    </div>
+
+    <!-- BUTTON -->
+    <button class="ip-btn" (click)="login()" [disabled]="isSubmitting">
+      <div class="ip-btn-sweep"></div>
+      <div class="ip-btn-inner">
+        <i class="ti ti-login" aria-hidden="true" *ngIf="!isSubmitting"></i>
+        <span *ngIf="!isSubmitting">Login</span>
+        <span *ngIf="isSubmitting">Authenticating...</span>
+      </div>
+    </button>
+
+    <!-- ERROR -->
+    <p class="ip-error" *ngIf="error">{{ error }}</p>
+
+    <!-- FOOTER -->
+    <div class="ip-foot">
+      New to Instaplus? <a routerLink="/register">Create account</a>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL — Welcome -->
+  <div class="ip-right">
+    <div class="ip-rp-glow"></div>
+    <div class="ip-rp-glow2"></div>
+
+    <div class="ip-rp-content">
+      <div class="ip-rp-icon">
+        <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+          <rect x="4"    y="22" width="7" height="12" rx="2" fill="rgba(255,255,255,0.9)"/>
+          <rect x="15.5" y="14" width="7" height="20" rx="2" fill="rgba(255,255,255,0.75)"/>
+          <rect x="27"   y="6"  width="7" height="28" rx="2" fill="rgba(255,255,255,0.55)"/>
+          <path d="M6 20 L15 12 L22 17 L32 6" stroke="#14c8a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="32" cy="6" r="2.5" fill="#14c8a0"/>
+        </svg>
+      </div>
+
+      <h3 class="ip-rp-heading">Already<br>with us?</h3>
+      <p class="ip-rp-desc">Sign in to manage inventory, track stock levels and monitor orders in real time.</p>
+
+      <button class="ip-rp-btn" routerLink="/register">New here? Register →</button>
+
+      <p class="ip-rp-live">
+        <span class="ip-dot"></span>
+        System live · All services operational
+      </p>
+    </div>
+  </div>
+
+</div>

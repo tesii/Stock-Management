@@ -1,0 +1,292 @@
+/* ================= GLOBAL ================= */
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f1f5f9;
+}
+
+/* ================= DASHBOARD WRAPPER ================= */
+.manager-dashboard {
+  display: flex;
+  gap: 18px;
+  padding: 18px;
+  min-height: 100vh;
+
+  background: linear-gradient(135deg, #e6fffb, #f8fafc);
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 240px;
+  background: linear-gradient(180deg, #0f766e, #134e4a);
+  color: white;
+
+  padding: 22px;
+  border-radius: 16px;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.sidebar h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px 12px;
+  margin: 10px 0;
+
+  color: #e2e8f0;
+  text-decoration: none;
+
+  border-radius: 10px;
+
+  transition: all 0.25s ease;
+}
+
+.sidebar nav a:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateX(6px);
+}
+
+.sidebar nav a.active {
+  background: rgba(255,255,255,0.22);
+  font-weight: 600;
+  color: #fff;
+}
+
+.logout-btn {
+  margin-top: auto;
+  padding: 10px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: rgba(255,255,255,0.15);
+  color: white;
+
+  cursor: pointer;
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.05);
+}
+
+/* ================= MAIN ================= */
+.main {
+  flex: 1;
+  background: #fff;
+
+  border-radius: 16px;
+  padding: 24px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* ================= HERO ================= */
+.dashboard-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 22px;
+  border-radius: 16px;
+
+  background: linear-gradient(135deg, #ecfeff, #e0f2fe);
+
+  box-shadow: inset 0 0 0 1px rgba(20,184,166,0.15);
+  margin-bottom: 20px;
+}
+
+.dashboard-hero h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #0f172a;
+}
+
+.dashboard-hero p {
+  margin: 5px 0 0;
+  color: #475569;
+}
+
+.notification-pill {
+  padding: 10px 14px;
+  border-radius: 999px;
+
+  background: #14b8a6;
+  color: white;
+
+  font-weight: 600;
+  box-shadow: 0 10px 20px rgba(20,184,166,0.25);
+}
+
+/* ================= NOTIFICATIONS ================= */
+.notification-panel {
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 14px;
+
+  margin-bottom: 20px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.notification-panel li {
+  list-style: none;
+
+  padding: 12px;
+  margin-bottom: 10px;
+
+  background: white;
+  border-radius: 12px;
+
+  border-left: 4px solid #14b8a6;
+
+  transition: 0.2s;
+}
+
+.notification-panel li:hover {
+  transform: translateX(6px);
+}
+
+/* ================= REPORT CONTROLS ================= */
+.report-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 20px 0;
+  gap: 12px;
+}
+
+.report-controls select {
+  padding: 10px;
+  border-radius: 10px;
+
+  border: 1px solid #cbd5e1;
+
+  background: white;
+
+  min-width: 160px;
+  transition: 0.2s;
+}
+
+.report-controls select:focus {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20,184,166,0.15);
+}
+
+/* ================= BUTTON ================= */
+.download-btn {
+  background: linear-gradient(135deg, #14b8a6, #0f766e);
+  color: white;
+
+  padding: 10px 14px;
+  border-radius: 10px;
+
+  border: none;
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.download-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ================= TABLE ================= */
+.report-table table {
+  width: 100%;
+  border-collapse: collapse;
+
+  background: white;
+
+  border-radius: 14px;
+  overflow: hidden;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.report-table th {
+  background: #0f766e;
+  color: white;
+
+  padding: 12px;
+  text-align: left;
+}
+
+.report-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.report-table tr:hover {
+  background: #f1f5f9;
+}
+
+/* ================= PAGINATION ================= */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #e2e8f0;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.pagination button:hover {
+  background: #14b8a6;
+  color: white;
+}
+
+/* ================= CHART ================= */
+.chart-box {
+  background: #ffffff;
+  padding: 20px;
+
+  border-radius: 16px;
+
+  margin: 20px 0;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+  min-height: 320px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  height: 300px !important;
+}

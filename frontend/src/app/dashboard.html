@@ -1,0 +1,64 @@
+<div class="dashboard-container">
+
+  <h2>📊 Dashboard 2.0</h2>
+
+  <!-- CARDS -->
+  <div class="cards">
+
+    <div class="card blue">
+      <h3>📦 Total Items</h3>
+      <p>{{ totalItems }}</p>
+    </div>
+
+    <div class="card green">
+      <h3>💰 Total Value</h3>
+      <p>{{ totalValue | number:'1.0-0' }}</p>
+    </div>
+
+    <div class="card orange">
+      <h3>⚠️ Low Stock</h3>
+      <p>{{ lowStockItems.length }}</p>
+    </div>
+
+    <div class="card red">
+      <h3>📤 Pending Approvals</h3>
+      <p>{{ pendingCount }}</p>
+    </div>
+
+  </div>
+
+  <!-- ROLE-SPECIFIC ACTIONS -->
+ 
+
+  <div *ngIf="isStoreKeeper" class="keeper-actions">
+    <h3>Store Keeper Actions</h3>
+    <div class="keeper-controls">
+      <a routerLink="/add" class="btn small">➕ Add Item</a>
+      <a routerLink="/stock" class="btn small">🔁 Stock In/Out</a>
+    </div>
+  </div>
+
+  <!-- LOW STOCK TABLE -->
+  <h3>⚠️ Low Stock Items</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Min Level</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of lowStockItems">
+        <td>{{ item.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.minStockLevel }}</td>
+        <td class="danger">LOW</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

@@ -1,0 +1,453 @@
+/* =========================================================
+   Instaplus Service Ltd — Auth Page  (Split-panel layout)
+   Font: https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap
+   ========================================================= */
+
+/* ── Page wrapper ────────────────────────────────────────── */
+.ip-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Outfit', sans-serif;
+  overflow: hidden;
+}
+
+/* ── LEFT PANEL ──────────────────────────────────────────── */
+.ip-left {
+  flex: 1;
+  background: #f4f6f5;
+  padding: 56px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── Brand ───────────────────────────────────────────────── */
+.ip-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 40px;
+}
+
+.ip-logo-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #0d5c4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ipLogoBeat 2.5s ease-in-out infinite;
+}
+
+@keyframes ipLogoBeat {
+  0%,100% { box-shadow: 0 0 0 0   rgba(13,92,74,0.35); }
+  50%     { box-shadow: 0 0 0 9px rgba(13,92,74,0);    }
+}
+
+.ip-brand-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0d2e26;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.ip-brand-tag {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #14c8a0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+/* ── Heading ─────────────────────────────────────────────── */
+.ip-heading {
+  font-size: 30px;
+  font-weight: 800;
+  color: #0d2e26;
+  letter-spacing: -0.6px;
+  margin-bottom: 10px;
+}
+
+.ip-underline {
+  width: 40px;
+  height: 3px;
+  background: #14c8a0;
+  border-radius: 2px;
+  margin-bottom: 12px;
+  animation: ipGrowLine 0.6s ease both 0.3s;
+}
+
+@keyframes ipGrowLine {
+  from { width: 0; }
+  to   { width: 40px; }
+}
+
+.ip-sub {
+  font-size: 14px;
+  color: #6b8a81;
+  font-weight: 400;
+  margin-bottom: 32px;
+}
+
+/* ── Fields ──────────────────────────────────────────────── */
+.ip-field { margin-bottom: 18px; }
+
+.ip-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4a7a6e;
+  margin-bottom: 7px;
+}
+
+.ip-inp-wrap { position: relative; }
+
+.ip-inp-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0b8b2;
+  font-size: 17px;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+.ip-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 16px 13px 44px;
+  background: #fff;
+  border: 1.5px solid #d8e8e4;
+  border-radius: 12px;
+  color: #0d2e26;
+  font-size: 14.5px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  outline: none;
+  transition: all 0.22s;
+}
+
+.ip-input::placeholder { color: #b0c8c2; }
+
+.ip-input:focus {
+  border-color: #14c8a0;
+  box-shadow: 0 0 0 4px rgba(20, 200, 160, 0.12);
+}
+
+.ip-input:focus + .ip-inp-icon { color: #14c8a0; }
+
+.ip-inp-border {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, #14c8a0, #0d9e78);
+  border-radius: 0 0 2px 2px;
+  transition: width 0.3s ease;
+  pointer-events: none;
+}
+
+.ip-input:focus ~ .ip-inp-border { width: 100%; }
+
+/* ── Options row ─────────────────────────────────────────── */
+.ip-opt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 22px;
+}
+
+.ip-chk-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #4a7a6e;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ip-chk {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid #b0d0c8;
+  background: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+
+.ip-chk:checked {
+  background: #14c8a0;
+  border-color: #14c8a0;
+}
+
+.ip-forgot {
+  font-size: 13px;
+  color: #14c8a0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.ip-forgot:hover { opacity: 0.7; }
+
+/* ── Button ──────────────────────────────────────────────── */
+.ip-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #0d5c4a;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.22s;
+}
+
+.ip-btn:hover {
+  background: #0a4a3b;
+  transform: translateY(-2px);
+}
+
+.ip-btn:active { transform: scale(0.99); }
+
+.ip-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ip-btn-sweep {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-15deg);
+  animation: ipBtnSweep 3.5s ease-in-out infinite 1.5s;
+}
+
+@keyframes ipBtnSweep {
+  0%,100% { left: -100%; }
+  50%     { left: 150%;  }
+}
+
+.ip-btn-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ── Error ───────────────────────────────────────────────── */
+.ip-error {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(220, 60, 60, 0.08);
+  border: 1.5px solid rgba(220, 60, 60, 0.18);
+  border-radius: 10px;
+  color: #c0392b;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.ip-foot {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 13.5px;
+  color: #6b8a81;
+}
+
+.ip-foot a {
+  color: #0d5c4a;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ip-foot a:hover { text-decoration: underline; }
+
+/* ── RIGHT PANEL ─────────────────────────────────────────── */
+.ip-right {
+  width: 46%;
+  background: #0d5c4a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 52px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* concentric pulse rings */
+.ip-right::before,
+.ip-right::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ipRingPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ip-right::before {
+  width: 380px; height: 380px;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.ip-right::after {
+  width: 580px; height: 580px;
+  border: 1px solid rgba(255,255,255,0.04);
+  animation-delay: 1.4s;
+}
+
+@keyframes ipRingPulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1);    opacity: 1;   }
+  50%     { transform: translate(-50%,-50%) scale(1.05); opacity: 0.4; }
+}
+
+.ip-rp-glow {
+  position: absolute;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(20,200,160,0.2) 0%, transparent 70%);
+  top: -60px; right: -80px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ip-rp-glow2 {
+  position: absolute;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(20,200,160,0.15) 0%, transparent 70%);
+  bottom: -50px; left: -40px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ip-rp-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.ip-rp-icon {
+  width: 82px;
+  height: 82px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  animation: ipIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes ipIconFloat {
+  0%,100% { transform: translateY(0);  }
+  50%     { transform: translateY(-7px); }
+}
+
+.ip-rp-heading {
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.7px;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.ip-rp-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.58);
+  font-weight: 300;
+  line-height: 1.65;
+  margin-bottom: 32px;
+  max-width: 220px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ip-rp-btn {
+  padding: 12px 30px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 10px;
+  background: transparent;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.22s;
+}
+
+.ip-rp-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+.ip-rp-live {
+  margin-top: 26px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.04em;
+}
+
+/* live status dot */
+.ip-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #14c8a0;
+  margin-right: 7px;
+  vertical-align: middle;
+  animation: ipDotBlink 1.8s ease-in-out infinite;
+}
+
+@keyframes ipDotBlink {
+  0%,100% { opacity: 1; box-shadow: 0 0 0 0   rgba(20,200,160,0.5); }
+  50%     { opacity: 0.5; box-shadow: 0 0 0 5px rgba(20,200,160,0); }
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .ip-page {
+    flex-direction: column;
+  }
+
+  .ip-right {
+    width: 100%;
+    padding: 40px 28px;
+    min-height: 260px;
+  }
+
+  .ip-right::before { width: 280px; height: 280px; }
+  .ip-right::after  { display: none; }
+
+  .ip-left {
+    padding: 36px 28px;
+  }
+}

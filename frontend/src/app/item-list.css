@@ -1,0 +1,172 @@
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== DASHBOARD CARDS ===== */
+.dashboard {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  flex: 1;
+  padding: 15px;
+  border-radius: 10px;
+  background: teal;
+  border: 1px solid #ddd;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* ===== BUTTON ===== */
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+/* DELETE BUTTON */
+button.delete {
+  background: #dc3545;
+}
+
+button.delete:hover {
+  background: #a71d2a;
+}
+
+/* ===== SEARCH INPUT ===== */
+input[type="text"] {
+  padding: 8px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+/* ===== TABLE ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+thead {
+  background: #f2f2f2;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+tr:hover {
+  background: #f9f9f9;
+  transition: 0.2s;
+}
+
+/* =======================================================
+   📦 STOCK STATUS COLORS (THIS IS WHAT YOU ASKED FOR)
+   ======================================================= */
+
+/* 🔴 LOW STOCK (critical) */
+.low {
+  background-color: #ba0303 !important;
+  color: #090909;
+  font-weight: bold;
+}
+
+/* 🟡 MEDIUM STOCK (warning) */
+.medium {
+  background-color: #fef3c7 !important;
+  color: #080808;
+}
+
+/* 🟢 HIGH STOCK (good) */
+.high {
+  background-color: #02bd43 !important;
+  color: #090a09;
+}
+
+/* optional smooth hover override */
+.low:hover,
+.medium:hover,
+.high:hover {
+  filter: brightness(0.95);
+}
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+}
+
+/* ===== BUTTON STYLE ===== */
+.pagination button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+}
+
+/* hover effect */
+.pagination button:hover:not(:disabled) {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* disabled state */
+.pagination button:disabled {
+  background: #cbd5e1;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== PAGE TEXT ===== */
+.pagination span {
+  font-weight: 600;
+  color: #333;
+  padding: 6px 10px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ===== OPTIONAL: MOBILE RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .pagination {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pagination button {
+    width: 100%;
+  }
+}
