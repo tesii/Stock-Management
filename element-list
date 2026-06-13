@@ -1,0 +1,5 @@
+com.instaplus.stock_mvp
+com.instaplus.stock_mvp.Controller
+com.instaplus.stock_mvp.Model
+com.instaplus.stock_mvp.Repository
+com.instaplus.stock_mvp.Service

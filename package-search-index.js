@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.instaplus.stock_mvp"},{"l":"com.instaplus.stock_mvp.Controller"},{"l":"com.instaplus.stock_mvp.Model"},{"l":"com.instaplus.stock_mvp.Repository"},{"l":"com.instaplus.stock_mvp.Service"}];updateSearchResults();
