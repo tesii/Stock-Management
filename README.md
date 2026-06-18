@@ -104,7 +104,8 @@ This project implements a CI/CD workflow using **GitHub Actions** to automate do
 
 A workflow file is defined in:
 
-```text
+gh-pages branch
+
 .github/workflows/deploy-docs.yml
 
 
