@@ -98,6 +98,15 @@ The system follows a layered architecture:
   
   **Database (MySQL):** Stores inventory, users, and transactions
 
+  ## CI/CD Pipeline (GitHub Actions)
+
+This project implements a CI/CD workflow using **GitHub Actions** to automate documentation deployment.
+
+A workflow file is defined in:
+
+```text
+.github/workflows/deploy-docs.yml
+
 
 ## Live Demo
 https://youtu.be/UdebeXrJ5SU
