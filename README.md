@@ -11,29 +11,45 @@ It enables efficient tracking of stock levels, approval of stock requests, and m
 ## Key Features
 
 ### 📦 Inventory Management
+
   Add, update, and manage product inventory
+  
   Track available stock in real time
+  
   Categorize stock items
 
 ### 📤 Stock Request & Approval Workflow
+
   Users can request stock items
+  
   Admins can approve or reject requests
+  
   Full approval history tracking
 
 ### 📊 Stock Tracking
+
   Monitor stock in (restocking / procurement)
+  
   Monitor stock out (usage / distribution)
+  
   Automatic stock balance updates
 
 ### 📈 Reporting & Analytics
+
   Stock movement reports
+  
   Inventory status reports
+  
   Approval history reports
+  
   Downloadable reports (PDF/Excel if implemented)
 
 ### 👤 User Management
-  Role based access control (Admin / User)
+
+  Role based access control (Manager / Storekeeper /Admin)
+  
   Secure authentication system
+  
   Activity tracking
 
    
@@ -41,22 +57,33 @@ It enables efficient tracking of stock levels, approval of stock requests, and m
 ## Technologies Used
 
 ### Frontend
+
   Angular
+  
   TypeScript
+  
   HTML5
+  
   CSS3
 
 ### Backend
+
   Spring Boot
+  
   Java 21
+  
   RESTful APIs
 
 ### Database
+
   MySQL
 
 ### Tools
+
   Git & GitHub
+  
   Maven
+  
   Postman
 
    
@@ -66,25 +93,11 @@ It enables efficient tracking of stock levels, approval of stock requests, and m
 The system follows a layered architecture:
 
   **Frontend (Angular):** User interface for stock requests and dashboards
+  
   **Backend (Spring Boot):** Business logic, stock processing, and approvals
+  
   **Database (MySQL):** Stores inventory, users, and transactions
 
-   
-
-## How to Run the Project
-
-### Prerequisites
-  Java 17+ / Java 21
-  Node.js & Angular CLI
-  Maven
-  MySQL
-
-   
-
-### Step 1: Clone Repository
-
-```bash
-git clone https://github.com/yourusername/instaplus stock management.git
 
 ## Live Demo
 https://youtu.be/UdebeXrJ5SU
