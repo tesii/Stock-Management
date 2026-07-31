@@ -1,21 +1,30 @@
 <div class="manager-dashboard">
 
   <!-- ================= SIDEBAR ================= -->
-  <aside class="sidebar">
-
+<aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <button class="sidebar-toggle" (click)="toggleSidebar()">
+    ☰
+  </button>
     <h3>Manager</h3>
 
     <nav>
       <a (click)="setView('dashboard')" [class.active]="currentView === 'dashboard'">
         Dashboard
       </a>
-
+      <a (click)="setView('items')" [class.active]="currentView === 'items'">
+        Inventory
+      </a>
       <a (click)="setView('approvals')" [class.active]="currentView === 'approvals'">
         Stock Approvals
       </a>
-
       <a (click)="setView('summary')" [class.active]="currentView === 'summary'">
         📊 Reports
+      </a>
+      <a (click)="setView('audits')" [class.active]="currentView === 'audits'">
+        📝 Audit Logs
+      </a>
+      <a (click)="setView('sitePerformance')" [class.active]="currentView === 'sitePerformance'">
+        🏢 Site Performance
       </a>
     </nav>
 
@@ -38,11 +47,23 @@
       <app-stock-approval></app-stock-approval>
     </section>
 
-    <!-- SUMMARY -->
+    <!-- INVENTORY -->
+    <section *ngIf="currentView === 'items'">
+      <app-item-list></app-item-list>
+    </section>
+
+    <!-- AUDITS -->
+    <section *ngIf="currentView === 'audits'">
+      <app-audit-list></app-audit-list>
+    </section>
+
+    <!-- ================= SUMMARY ================= -->
     <section *ngIf="currentView === 'summary'">
 
       <div class="dashboard-hero">
-        <h2>📊 Stock Summary Report</h2>
+        <div class="hero-title-group">
+          <h2>Stock Summary Report</h2>
+        </div>
       </div>
 
       <!-- CHART -->
@@ -54,21 +75,247 @@
         </canvas>
       </div>
 
-      <!-- CONTROLS -->
+      <!-- MONTH FILTER + CONTROLS -->
       <div class="report-controls">
 
         <select [(ngModel)]="selectedMonth" (change)="filterByMonth()">
           <option value="">All Months</option>
-
           <option *ngFor="let m of months" [value]="m">
             {{ m }}
           </option>
         </select>
 
-        <button class="download-btn" (click)="downloadPDF()">
-          📥 Download PDF
+      </div>
+
+      <!-- ✅ TABS -->
+      <div class="summary-tabs">
+
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="summaryTab === 'overview'"
+          (click)="setSummaryTab('overview')">
+          📦 Item Overview
         </button>
 
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="summaryTab === 'detailed'"
+          (click)="setSummaryTab('detailed')">
+          📋 Detailed Report
+        </button>
+
+      </div>
+
+      <!-- ✅ TAB 1: ITEM STOCK OVERVIEW -->
+      <div class="tab-panel" *ngIf="summaryTab === 'overview'">
+
+        <!-- SEARCH + DOWNLOAD -->
+        <div class="filter-bar">
+
+          <label for="overviewSearch">🔍 Search Item</label>
+
+          <input
+            id="overviewSearch"
+            type="text"
+            placeholder="Search by item name..."
+            [(ngModel)]="overviewSearchTerm"
+            (input)="onOverviewSearch()" />
+
+          <button
+            type="button"
+            class="clear-filter-btn"
+            *ngIf="overviewSearchTerm"
+            (click)="clearOverviewSearch()">
+            ✕ Clear Search
+          </button>
+
+          <button class="download-btn" (click)="downloadOverviewPDF()">
+            📥 Download PDF
+          </button>
+
+        </div>
+
+        <div class="report-table">
+
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>QIN</th>
+                <th>QOUT</th>
+                <th>Qtotal</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let s of paginatedOverview" [ngClass]="s.status">
+                <td>{{ s.itemName }}</td>
+                <td>{{ s.qin }}</td>
+                <td>{{ s.qout }}</td>
+                <td>
+                  <span class="stock-badge" [ngClass]="s.status">
+                    {{ s.qtotal }}
+                  </span>
+                </td>
+              </tr>
+
+              <tr *ngIf="paginatedOverview.length === 0">
+                <td colspan="4" style="text-align:center; color:#94a3b8; font-style:italic;">
+                  No stock data available.
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination" *ngIf="filteredOverview.length > overviewPageSize">
+
+          <button (click)="overviewPrevPage()" [disabled]="overviewCurrentPage === 1">
+            Prev
+          </button>
+
+          <span>
+            Page {{ overviewCurrentPage }} / {{ overviewTotalPages }}
+          </span>
+
+          <button (click)="overviewNextPage()" [disabled]="overviewCurrentPage === overviewTotalPages">
+            Next
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- ✅ TAB 2: DETAILED REPORT -->
+      <div class="tab-panel" *ngIf="summaryTab === 'detailed'">
+
+        <!-- SITE + DATE FILTERS -->
+        <div class="filter-bar">
+
+          <label>Site</label>
+
+          <select [(ngModel)]="selectedSite" (change)="onSiteChange()">
+            <option value="">All Sites</option>
+            <option *ngFor="let site of sites" [value]="site.siteName">
+              {{ site.siteName }}
+            </option>
+          </select>
+
+          <label for="managerDateFilter">📆 Date</label>
+
+          <input
+            id="managerDateFilter"
+            type="date"
+            [(ngModel)]="selectedDate"
+            (change)="onDateChange()" />
+
+          <button
+            type="button"
+            class="clear-filter-btn"
+            *ngIf="selectedSite || selectedDate"
+            (click)="clearAllFilters()">
+            ✕ Clear Filters
+          </button>
+
+          <button class="download-btn" (click)="downloadPDF()">
+            📥 Download PDF
+          </button>
+
+        </div>
+
+        <!-- TABLE: Date, Item, Site, QOUT, Status -->
+        <div class="report-table detailed-report-table">
+
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Item</th>
+                <th>Site</th>
+                <th>QOUT</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let s of paginatedSummary" [ngClass]="s.status">
+                <td>{{ s.date | date:'yyyy-MM-dd' }}</td>
+                <td>{{ s.itemName }}</td>
+                <td>{{ s.siteName }}</td>
+                <td>{{ s.qout }}</td>
+                <td>
+                  <!-- Shows the status from the stock_movement table
+                       (e.g. APPROVED / PENDING / REJECTED),
+                       not the computed low/average/high stock level -->
+                  <span class="stock-badge movement-status" [ngClass]="s.movementStatus.toLowerCase()">
+                    {{ s.movementStatus }}
+                  </span>
+                </td>
+              </tr>
+
+              <tr *ngIf="paginatedSummary.length === 0">
+                <td colspan="5" style="text-align:center; color:#94a3b8; font-style:italic;">
+                  No stock data available.
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination">
+
+          <button (click)="prevPage()" [disabled]="currentPage === 1">
+            Prev
+          </button>
+
+          <span>
+            Page {{ currentPage }} / {{ totalPages }}
+          </span>
+
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+            Next
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================= SITE PERFORMANCE ================= -->
+    <section *ngIf="currentView === 'sitePerformance'">
+
+      <div class="dashboard-hero">
+        <div class="hero-title-group">
+          <h2>Stock Consumption by Site</h2>
+        </div>
+      </div>
+
+      <!-- TOP CONSUMER CALLOUT -->
+      <div class="top-site-card" *ngIf="topConsumingSite">
+        <div class="top-site-label">Highest Consuming Location</div>
+        <div class="top-site-name">{{ topConsumingSite.siteName }}</div>
+        <div class="top-site-stats">
+          <span><strong>{{ topConsumingSite.totalOut }}</strong> units OUT total</span>
+          <span>Top item: <strong>{{ topConsumingSite.topItemName }}</strong> ({{ topConsumingSite.topItemOut }} units)</span>
+        </div>
+      </div>
+
+      <div class="report-controls">
+        <span></span>
+        <button class="download-btn" (click)="downloadSitePDF()">
+          📥 Download PDF
+        </button>
       </div>
 
       <!-- TABLE -->
@@ -77,40 +324,45 @@
         <table>
           <thead>
             <tr>
-              <th>Item</th>
-              <th>Qty IN</th>
-              <th>Qty OUT</th>
-              <th>Total Qty </th>
+              <th>Site</th>
+              <th>Total Stock OUT</th>
+              <th>Top Item (highest OUT)</th>
+              <th>Top Item Qty</th>
             </tr>
           </thead>
 
           <tbody>
 
-            <tr *ngFor="let s of paginatedSummary">
-              <td>{{ s.itemName }}</td>
-              <td>{{ s.qin }}</td>
-              <td>{{ s.qout }}</td>
-              <td>{{ s.qtotal }}</td>
+            <tr *ngFor="let s of paginatedSiteSummary; let i = index" [class.rank-first]="siteCurrentPage === 1 && i === 0">
+              <td>{{ s.siteName }}</td>
+              <td>{{ s.totalOut }}</td>
+              <td>{{ s.topItemName }}</td>
+              <td>{{ s.topItemOut }}</td>
+            </tr>
+
+            <tr *ngIf="siteOutSummary.length === 0">
+              <td colspan="4" style="text-align:center; color:#94a3b8; font-style:italic;">
+                No stock-out movements recorded yet.
+              </td>
             </tr>
 
           </tbody>
-
         </table>
 
       </div>
 
       <!-- PAGINATION -->
-      <div class="pagination">
+      <div class="pagination" *ngIf="siteOutSummary.length > sitePageSize">
 
-        <button (click)="prevPage()" [disabled]="currentPage === 1">
+        <button (click)="sitePrevPage()" [disabled]="siteCurrentPage === 1">
           Prev
         </button>
 
         <span>
-          Page {{ currentPage }} / {{ totalPages }}
+          Page {{ siteCurrentPage }} / {{ siteTotalPages }}
         </span>
 
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        <button (click)="siteNextPage()" [disabled]="siteCurrentPage === siteTotalPages">
           Next
         </button>
 

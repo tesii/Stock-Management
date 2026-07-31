@@ -10,7 +10,7 @@
 /* Title */
 h2 {
   text-align: center;
-  color: #0f766e;
+  color: #1b93c9;
   margin-bottom: 25px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -25,7 +25,7 @@ h2 {
   padding: 20px 30px;
   border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  border-top: 5px solid #14b8a6;
+  border-top: 5px solid #1b93c9;
 }
 
 /* Labels */
@@ -33,7 +33,7 @@ h2 {
   display: block;
   margin-bottom: 6px;
   font-weight: 600;
-  color: #0f766e;
+  color: #1b93c9;
   font-size: 14px;
 }
 
@@ -54,7 +54,7 @@ h2 {
 /* Focus effect */
 .form-container input:focus,
 .form-container select:focus {
-  border-color: #14b8a6;
+  border-color: #1b93c9;
   box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
   background: #ffffff;
 }
@@ -63,7 +63,7 @@ h2 {
 button {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #14b8a6, #0f766e);
+  background: #1b93c9;
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -76,7 +76,7 @@ button {
 /* Button hover */
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(20, 184, 166, 0.35);
+  box-shadow: #1b93c9;
 }
 
 /* Button active */

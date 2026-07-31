@@ -21,8 +21,12 @@ public class StockMovementController {
     // CREATE STOCK MOVEMENT
     // =========================
     @PostMapping
-    public StockMovement create(@RequestBody StockMovement m) {
-        return service.saveMovement(m);
+    public StockMovement create(
+            @RequestBody StockMovement m,
+            @RequestParam String username,
+            @RequestParam String role
+    ) {
+        return service.saveMovement(m, username, role);
     }
 
     // =========================
@@ -37,15 +41,23 @@ public class StockMovementController {
     // APPROVE OUT STOCK
     // =========================
     @PutMapping("/approve/{id}")
-    public StockMovement approve(@PathVariable Long id) {
-        return service.approveMovement(id);
+    public StockMovement approve(
+            @PathVariable Long id,
+            @RequestParam String username,
+            @RequestParam String role
+    ) {
+        return service.approveMovement(id, username, role);
     }
 
     // =========================
     // REJECT OUT STOCK
     // =========================
     @PutMapping("/reject/{id}")
-    public StockMovement reject(@PathVariable Long id) {
-        return service.rejectMovement(id);
+    public StockMovement reject(
+            @PathVariable Long id,
+            @RequestParam String username,
+            @RequestParam String role
+    ) {
+        return service.rejectMovement(id, username, role);
     }
 }

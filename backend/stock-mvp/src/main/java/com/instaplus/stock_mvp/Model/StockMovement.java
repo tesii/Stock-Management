@@ -22,10 +22,27 @@ public class StockMovement {
 
     private Double quantity;
 
-    private String site; // optional for OUT
+@ManyToOne
+@JoinColumn(name = "site_id")
+private Site site;
 
     private LocalDate date;
+@PrePersist
+public void prePersist(){
 
+    if(date == null){
+
+        date = LocalDate.now();
+
+    }
+
+    if(status == null){
+
+        status = "PENDING";
+
+    }
+
+}
     private String note;
         private String status; // PENDING, APPROVED, REJECTED
 

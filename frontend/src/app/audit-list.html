@@ -1,0 +1,106 @@
+<div class="audit-container">
+
+  <div class="audit-header">
+    <h2>🕵️ Audit Logs</h2>
+    <p class="audit-subtitle">Track every action across the system</p>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+
+    <input
+      type="text"
+      placeholder="Search by user, entity, description..."
+      [(ngModel)]="searchText"
+      (input)="applyFilters()">
+
+    <select [(ngModel)]="selectedRole" (change)="applyFilters()">
+      <option value="">All Roles</option>
+      <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+    </select>
+
+    <select [(ngModel)]="selectedAction" (change)="applyFilters()">
+      <option value="">All Actions</option>
+      <option *ngFor="let a of actions" [value]="a">{{ a }}</option>
+    </select>
+
+    <button class="clear-btn" (click)="clearFilters()">Clear</button>
+
+  </div>
+
+  <!-- RESULT COUNT -->
+  <div class="result-count" *ngIf="filteredAudits.length > 0">
+    Showing {{ paginatedAudits.length }} of {{ filteredAudits.length }} log entries
+  </div>
+
+  <!-- TABLE -->
+  <div class="audit-table-wrapper">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th class="col-time">Date / Time</th>
+          <th class="col-user">User</th>
+          <th class="col-role">Role</th>
+          <th class="col-action">Action</th>
+          <th class="col-entity">Entity</th>
+          <th class="col-desc">Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let log of paginatedAudits">
+          <td class="col-time">
+            <span class="timestamp">{{ log.createdAt | date:'MMM d, y' }}</span>
+            <span class="timestamp-time">{{ log.createdAt | date:'HH:mm:ss' }}</span>
+          </td>
+          <td class="col-user">
+            <span class="user-name">{{ log.username }}</span>
+          </td>
+          <td class="col-role">
+            <span class="role-badge">{{ log.role }}</span>
+          </td>
+          <td class="col-action">
+            <span class="action-badge" [ngClass]="getActionClass(log.action)">
+              {{ log.action }}
+            </span>
+          </td>
+          <td class="col-entity">
+            <span class="entity-tag">{{ log.entityName }}</span>
+          </td>
+          <td class="col-desc description-cell">{{ getDescriptionDisplay(log) }}</td>
+        </tr>
+
+        <tr *ngIf="paginatedAudits.length === 0">
+          <td colspan="6" class="empty-row">
+            <span class="empty-icon">📭</span>
+            <span>No audit logs found.</span>
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination" *ngIf="filteredAudits.length > pageSize">
+
+    <button (click)="prevPage()" [disabled]="currentPage === 1">
+      ◀ Previous
+    </button>
+
+    <span>
+      Page {{ currentPage }} / {{ totalPages }}
+    </span>
+
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Next ▶
+    </button>
+
+  </div>
+
+</div>

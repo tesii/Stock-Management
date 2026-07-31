@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID  } from '@angular/core';
+import { CommonModule, isPlatformBrowser  } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
 import { UserList } from './user-list';
-import { UserForm } from './user-form';
+import { StaffRegisterComponent } from './register';
 import { DashboardComponent } from './dashboard';
 import { ItemList } from './item-list';
 import { StockMovementComponent } from './stock_movement';
+import { SiteComponent } from './site';
 
 import { ItemService } from './item.service';
 import { StockService } from './stock.service';
+
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -18,10 +20,11 @@ import { StockService } from './stock.service';
     CommonModule,
     RouterModule,
     UserList,
-    UserForm,
+    StaffRegisterComponent,
     DashboardComponent,
     ItemList,
-    StockMovementComponent
+    StockMovementComponent,
+    SiteComponent
   ],
   templateUrl: './admin-dashboard.html',
   styleUrls: ['./admin-dashboard.css']

@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
-import { PLATFORM_ID } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -13,274 +13,933 @@ import { StockMovementComponent } from './stock_movement';
 
 type StockStatus = 'low' | 'average' | 'high';
 
+interface Site {
+  id: number;
+  siteName: string;
+}
+
 @Component({
   selector: 'app-store-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, StockMovementComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    StockMovementComponent
+  ],
   templateUrl: './storekeeper-dashboard.html',
   styleUrls: ['./storekeeper-dashboard.css']
 })
 export class StoreKeeperDashboard implements OnInit {
 
-  // ================= VIEW =================
+  // =========================
+  // VIEW
+  // =========================
+
   currentView = 'dashboard';
   userName = 'Store Keeper';
 
-  // ================= NOTIFICATIONS =================
-  notifications: string[] = [];
-  showNotifications = false;
+  sidebarCollapsed = false;
 
-  // ================= FILTER =================
-  selectedMonth = '';
-  months = [
-    'January','February','March','April','May','June',
-    'July','August','September','October','November','December'
-  ];
+  toggleSidebar(): void {
+    this.sidebarCollapsed = !this.sidebarCollapsed;
+  }
 
-  // ================= STOCK =================
+  // =========================
+  // DASHBOARD
+  // =========================
+
+  totalItems = 0;
+  totalStockIn = 0;
+  totalStockOut = 0;
+  lowStockCount = 0;
+
+  // =========================
+  // SUMMARY
+  // =========================
+
   stockSummary: any[] = [];
 
   chartData: { name: string; value: number }[] = [];
 
   lowStockThreshold = 10;
 
-  // FIX: used in HTML
-  lowStockItemIds: Set<number> = new Set<number>();
+  lowStockItemIds: Set<number> = new Set();
 
-  // ================= DATA =================
-  private allMovements: any[] = [];
+  // =========================
+  // FILTERS
+  // =========================
 
-  // ================= PAGINATION =================
-  currentPage = 1;
-  pageSize = 10;
+  selectedMonth = '';
 
-  constructor(
-    private router: Router,
-    private itemService: ItemService,
-    private stockService: StockService,
-    @Inject(PLATFORM_ID) private platformId: object
-  ) {}
+  months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
 
-  ngOnInit() {
+  selectedSite = '';
 
-    if (isPlatformBrowser(this.platformId)) {
-      const data = localStorage.getItem('user');
+  selectedDate = '';
 
-      if (data) {
-        try {
-          const user = JSON.parse(data);
-          this.userName = user.username ?? this.userName;
-        } catch {
-          this.userName = 'Store Keeper';
-        }
-      }
-    }
+  sites: Site[] = [];
 
-    this.loadStockSummary();
-  }
+  // =========================
+  // DASHBOARD NOTIFICATIONS
+  // =========================
 
-  // ================= VIEW =================
-  setView(view: string) {
-    this.currentView = view;
-  }
+  notifications: string[] = [];
 
-  logout() {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('user');
-    }
-    this.router.navigate(['/login']);
-  }
-
-  // ================= NOTIFICATIONS =================
-  toggleNotifications() {
-    this.showNotifications = !this.showNotifications;
-
-    if (this.notifications.length === 0) {
-      this.loadNotifications();
-    }
-  }
+  showNotifications = false;
 
   get notificationCount(): number {
     return this.notifications.length;
   }
 
-  // ================= PAGINATION =================
-  get paginatedStock() {
-    const start = (this.currentPage - 1) * this.pageSize;
-    return this.stockSummary.slice(start, start + this.pageSize);
+  toggleNotifications(): void {
+
+    this.showNotifications = !this.showNotifications;
+
+    if (
+      this.showNotifications &&
+      this.notifications.length === 0
+    ) {
+      this.loadNotifications();
+    }
+
   }
 
-  get totalPages() {
-    return Math.ceil(this.stockSummary.length / this.pageSize);
+  // =========================
+  // SUMMARY TABS
+  // =========================
+
+  summaryTab: 'overview' | 'detailed' = 'overview';
+
+  setSummaryTab(
+    tab: 'overview' | 'detailed'
+  ): void {
+
+    this.summaryTab = tab;
+
   }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages) this.currentPage++;
+  // =========================
+  // SEARCH
+  // =========================
+
+  overviewSearchTerm = '';
+
+  // =========================
+  // PAGINATION
+  // =========================
+
+  currentPage = 1;
+
+  pageSize = 10;
+
+  overviewCurrentPage = 1;
+
+  overviewPageSize = 10;
+
+  // =========================
+  // DATA
+  // =========================
+
+  private allMovements: any[] = [];
+
+  constructor(
+    private router: Router,
+    private itemService: ItemService,
+    private stockService: StockService,
+    private http: HttpClient,
+    @Inject(PLATFORM_ID)
+    private platformId: object
+  ) {}
+
+  ngOnInit(): void {
+
+    if (isPlatformBrowser(this.platformId)) {
+
+      const userData = localStorage.getItem('user');
+
+      if (userData) {
+
+        const user = JSON.parse(userData);
+
+        this.userName = user.username;
+
+      }
+
+    }
+
+    this.loadSites();
+
+    this.loadStockSummary();
+
   }
 
-  prevPage() {
-    if (this.currentPage > 1) this.currentPage--;
+  // =========================
+  // NAVIGATION
+  // =========================
+
+  setView(view: string): void {
+
+    this.currentView = view;
+
   }
 
-  // ================= LOAD =================
-  private loadStockSummary() {
+  logout(): void {
 
-    this.stockService.getMovements().subscribe(movements => {
-      this.allMovements = movements;
+    if (isPlatformBrowser(this.platformId)) {
 
-      this.itemService.getItems().subscribe(items => {
-        this.processStock(items, movements);
+      localStorage.removeItem('user');
+
+    }
+
+    this.router.navigate(['/login']);
+
+  }
+
+  // =========================
+  // LOAD SITES
+  // =========================
+
+  loadSites(): void {
+
+    this.http
+      .get<Site[]>(
+        'http://localhost:8081/api/sites'
+      )
+      .subscribe({
+
+        next: sites => {
+
+          this.sites = sites;
+
+        },
+
+        error: err => {
+
+          console.error(
+            'Failed to load sites',
+            err
+          );
+
+        }
+
       });
-    });
+
   }
 
-  // ================= FILTER =================
-  filterByMonth() {
+  // =========================
+  // LOAD STOCK
+  // =========================
 
-    const filtered = this.selectedMonth
-      ? this.allMovements.filter(m => {
-          const date = new Date(m.date ?? m.createdAt ?? '');
-          return date.getMonth() === this.months.indexOf(this.selectedMonth);
-        })
-      : this.allMovements;
+  private loadStockSummary(): void {
 
-    this.itemService.getItems().subscribe(items => {
-      this.processStock(items, filtered);
-    });
+    this.stockService
+      .getMovements()
+      .subscribe({
+
+        next: movements => {
+
+          this.allMovements = movements;
+
+          this.itemService
+            .getItems()
+            .subscribe({
+
+              next: items => {
+
+                this.processStock(
+                  items,
+                  movements
+                );
+
+              },
+
+              error: err => {
+
+                console.error(
+                  'Failed loading items',
+                  err
+                );
+
+              }
+
+            });
+
+        },
+
+        error: err => {
+
+          console.error(
+            'Failed loading movements',
+            err
+          );
+
+        }
+
+      });
+
+  }
+
+  // =========================
+  // FILTERS
+  // =========================
+
+  onSiteChange(): void {
 
     this.currentPage = 1;
+
   }
 
-  // ================= CORE LOGIC =================
-private processStock(items: Item[], movements: any[]) {
+  onDateChange(): void {
+
+    this.currentPage = 1;
+
+  }
+
+  clearDateFilter(): void {
+
+    this.selectedDate = '';
+
+    this.currentPage = 1;
+
+  }
+
+  clearAllFilters(): void {
+
+    this.selectedSite = '';
+
+    this.selectedDate = '';
+
+    this.selectedMonth = '';
+
+    this.currentPage = 1;
+
+    this.filterByMonth();
+
+  }
+
+  // =========================
+  // OVERVIEW SEARCH
+  // =========================
+
+  get filteredOverview() {
+
+    const term =
+      this.overviewSearchTerm
+        .trim()
+        .toLowerCase();
+
+    if (!term) {
+
+      return this.stockSummary;
+
+    }
+
+    return this.stockSummary.filter(item =>
+      item.itemName
+        ?.toLowerCase()
+        .includes(term)
+    );
+
+  }
+
+  get paginatedOverview() {
+
+    const start =
+      (this.overviewCurrentPage - 1)
+      * this.overviewPageSize;
+
+    return this.filteredOverview.slice(
+      start,
+      start + this.overviewPageSize
+    );
+
+  }
+
+  get overviewTotalPages(): number {
+
+    return (
+      Math.ceil(
+        this.filteredOverview.length /
+        this.overviewPageSize
+      ) || 1
+    );
+
+  }
+
+  onOverviewSearch(): void {
+
+    this.overviewCurrentPage = 1;
+
+  }
+
+  clearOverviewSearch(): void {
+
+    this.overviewSearchTerm = '';
+
+    this.overviewCurrentPage = 1;
+
+  }
+
+  overviewNextPage(): void {
+
+    if (
+      this.overviewCurrentPage <
+      this.overviewTotalPages
+    ) {
+
+      this.overviewCurrentPage++;
+
+    }
+
+  }
+
+  overviewPrevPage(): void {
+
+    if (
+      this.overviewCurrentPage > 1
+    ) {
+
+      this.overviewCurrentPage--;
+
+    }
+
+  }
+  // =========================
+// PAGINATION
+// =========================
+
+get filteredStock() {
+
+  return this.stockSummary.filter(stock => {
+
+    // rows that actually have a site
+    const hasSite =
+      stock.siteName &&
+      stock.siteName !== 'N/A';
+
+    // rows still awaiting approval (may not have a
+    // site assigned yet) — keep these visible too
+    const awaitingApproval =
+      stock.movementStatus === 'PENDING' ||
+      stock.movementStatus === 'REJECTED';
+
+    const siteMatches =
+      !this.selectedSite ||
+      stock.siteName === this.selectedSite;
+
+    const dateMatches =
+      !this.selectedDate ||
+      stock.date === this.selectedDate;
+
+    return (
+      (hasSite || awaitingApproval) &&
+      siteMatches &&
+      dateMatches
+    );
+
+  });
+
+}
+
+get paginatedStock() {
+
+  const start =
+    (this.currentPage - 1) * this.pageSize;
+
+  return this.filteredStock.slice(
+    start,
+    start + this.pageSize
+  );
+
+}
+
+get totalPages(): number {
+
+  return (
+    Math.ceil(
+      this.filteredStock.length / this.pageSize
+    ) || 1
+  );
+
+}
+
+nextPage(): void {
+
+  if (this.currentPage < this.totalPages) {
+
+    this.currentPage++;
+
+  }
+
+}
+
+prevPage(): void {
+
+  if (this.currentPage > 1) {
+
+    this.currentPage--;
+
+  }
+
+}
+
+// =========================
+// MONTH FILTER
+// =========================
+
+filterByMonth(): void {
+
+  const filtered = this.selectedMonth
+
+    ? this.allMovements.filter(m => {
+
+        const date = new Date(
+          m.date ?? m.createdAt ?? ''
+        );
+
+        return (
+          date.getMonth() ===
+          this.months.indexOf(this.selectedMonth)
+        );
+
+      })
+
+    : this.allMovements;
+
+  this.itemService.getItems()
+    .subscribe(items => {
+
+      this.processStock(
+        items,
+        filtered
+      );
+
+    });
+
+  this.currentPage = 1;
+
+}
+
+// =========================
+// PROCESS STOCK
+// =========================
+
+private processStock(
+  items: Item[],
+  movements: any[]
+): void {
 
   const itemMap = new Map<number, string>();
 
-  // ================= DB STOCK (SOURCE OF TRUTH) =================
   const dbStock = new Map<number, number>();
 
-  items.forEach(i => {
-    if (!i.id) return;
+  items.forEach(item => {
 
-    itemMap.set(i.id, i.name);
+    if (!item.id) return;
 
-    // ✔ STOCK LEFT COMES DIRECTLY FROM DATABASE
-    dbStock.set(i.id, Number(i.quantity ?? 0));
+    itemMap.set(item.id, item.name);
+
+    dbStock.set(
+      item.id,
+      Number(item.quantity ?? 0)
+    );
+
   });
 
-  // ================= MOVEMENT SUMMARY =================
-  const movementMap = new Map<number, { in: number; out: number }>();
+  const movementMap = new Map<
+    number,
+    {
+      in: number;
+      out: number;
+    }
+  >();
 
-  movements.forEach(m => {
-    if (!m?.itemId) return;
+  movements.forEach(movement => {
 
-    const entry = movementMap.get(m.itemId) ?? { in: 0, out: 0 };
-    const qty = Number(m.quantity ?? 0);
+    if (!movement.itemId) return;
 
-    if (m.type === 'IN') entry.in += qty;
-    if (m.type === 'OUT') entry.out += qty;
+    const entry =
+      movementMap.get(movement.itemId)
+      ?? { in: 0, out: 0 };
 
-    movementMap.set(m.itemId, entry);
-  });
+    const qty =
+      Number(movement.quantity ?? 0);
 
-  // ================= BUILD STOCK SUMMARY =================
-  this.stockSummary = Array.from(dbStock.entries()).map(([id, stockLeft]) => {
+    if (movement.type === 'IN') {
 
-    const m = movementMap.get(id) ?? { in: 0, out: 0 };
+      entry.in += qty;
 
-    const min = items.find(i => i.id === id)?.minStockLevel ?? this.lowStockThreshold;
-
-    let status: StockStatus = 'high';
-
-    if (stockLeft <= min) {
-      status = 'low';
-    } else if (stockLeft <= min * 1.5) {
-      status = 'average';
     }
 
-    return {
-      itemId: id,
-      itemName: itemMap.get(id) ?? `Item ${id}`,
+    if (movement.type === 'OUT') {
 
-      // ================= IMPORTANT =================
-      qtotal: stockLeft,   // ✔ LIVE DB STOCK
+      entry.out += qty;
 
-      // movement history only
-      qin: m.in,
-      qout: m.out,
+    }
 
-      status
-    };
+    movementMap.set(
+      movement.itemId,
+      entry
+    );
+
   });
 
-  // ================= LOW STOCK SET =================
-  this.lowStockItemIds = new Set(
-    this.stockSummary
-      .filter(s => s.status === 'low')
-      .map(s => s.itemId)
-  );
+  this.stockSummary =
+    Array.from(dbStock.entries())
+      .map(([id, stockLeft]) => {
 
-  // ================= CHART =================
-  let totalIn = 0;
-  let totalOut = 0;
+        const movement =
+          movementMap.get(id)
+          ?? { in: 0, out: 0 };
 
-  movementMap.forEach(v => {
-    totalIn += v.in;
-    totalOut += v.out;
-  });
+        const minStock =
+
+          items.find(
+            i => i.id === id
+          )?.minStockLevel
+
+          ?? this.lowStockThreshold;
+
+        let status: StockStatus = 'high';
+
+        if (stockLeft <= minStock) {
+
+          status = 'low';
+
+        }
+
+        else if (
+          stockLeft <= minStock * 1.5
+        ) {
+
+          status = 'average';
+
+        }
+
+        // Most recent stock_movement record for this item —
+        // used to surface the movement's own status
+        // (e.g. APPROVED / PENDING / REJECTED) rather than
+        // the computed stock-level status above.
+        const latestMovement =
+          movements.find(
+            m => m.itemId === id
+          );
+
+        return {
+
+          itemId: id,
+
+          itemName:
+            itemMap.get(id)
+            ?? `Item ${id}`,
+
+          qtotal: stockLeft,
+
+          qin: movement.in,
+
+          qout: movement.out,
+
+          siteName:
+            this.getSiteName(
+              id,
+              movements
+            ),
+
+          date:
+            latestMovement?.date ?? '',
+
+          // computed stock-level indicator (low/average/high)
+          // kept for row coloring / low-stock badge
+          status,
+
+          // actual status straight from the stock_movement table
+          movementStatus:
+            latestMovement?.status
+            ?? 'N/A'
+
+        };
+
+      });
+
+  this.lowStockItemIds =
+    new Set(
+
+      this.stockSummary
+
+        .filter(
+          item =>
+            item.status === 'low'
+        )
+
+        .map(
+          item =>
+            item.itemId
+        )
+
+    );
+
+  const totalIn =
+    this.stockSummary.reduce(
+
+      (sum, item) =>
+
+        sum + Number(item.qin),
+
+      0
+
+    );
+
+  const totalOut =
+    this.stockSummary.reduce(
+
+      (sum, item) =>
+
+        sum + Number(item.qout),
+
+      0
+
+    );
 
   this.chartData = [
-    { name: 'IN', value: totalIn },
-    { name: 'OUT', value: totalOut }
+
+    {
+      name: 'IN',
+      value: totalIn
+    },
+
+    {
+      name: 'OUT',
+      value: totalOut
+    }
+
   ];
+
+  // IMPORTANT
+  this.updateDashboardStats();
+
 }
 
-  // ================= CHART =================
-  maxChartValue(): number {
-    return this.chartData.length
-      ? Math.max(...this.chartData.map(d => d.value))
-      : 1;
-  }
+// =========================
+// DASHBOARD CARDS
+// =========================
 
-  // ================= PDF =================
-  downloadPDF() {
+private updateDashboardStats(): void {
 
-    const doc = new jsPDF();
-    const today = new Date().toLocaleDateString();
+  this.totalItems =
+    this.stockSummary.length;
 
-    doc.text('InstaPlus Service Ltd', 14, 20);
-    doc.text('Monthly Stock Report', 14, 30);
-    doc.text(`Generated: ${today}`, 14, 40);
-    doc.text(`By: ${this.userName}`, 14, 50);
+  this.totalStockIn =
+    this.stockSummary.reduce(
 
-    autoTable(doc, {
-      startY: 60,
-      head: [['Item', 'IN', 'OUT', 'Stock', 'Status']],
-      body: this.stockSummary.map(i => [
-        i.itemName,
-        i.qin,
-        i.qout,
-        i.qtotal,
-        i.status
-      ])
-    });
+      (sum, item) =>
 
-    doc.save('monthly-stock-report.pdf');
-  }
+        sum + Number(item.qin),
 
-  // ================= NOTIFICATIONS =================
-  private loadNotifications() {
+      0
 
-    this.stockService.getMovements().subscribe(movements => {
+    );
 
-      const approved = movements.filter(m => m.status === 'APPROVED').length;
-      const pending = movements.filter(m => m.status === 'PENDING').length;
+  this.totalStockOut =
+    this.stockSummary.reduce(
+
+      (sum, item) =>
+
+        sum + Number(item.qout),
+
+      0
+
+    );
+
+  this.lowStockCount =
+    this.stockSummary.filter(
+
+      item =>
+        item.status === 'low'
+
+    ).length;
+
+}
+
+// =========================
+// CHART
+// =========================
+
+maxChartValue(): number {
+
+  return this.chartData.length
+
+    ? Math.max(
+        ...this.chartData.map(
+          c => c.value
+        )
+      )
+
+    : 1;
+
+}
+
+// =========================
+// SITE NAME
+// =========================
+
+getSiteName(
+  itemId: number,
+  movements: any[]
+): string {
+
+  const movement =
+    movements.find(
+      m =>
+        m.itemId === itemId &&
+        m.site
+    );
+
+  return (
+    movement?.site?.siteName ??
+    'N/A'
+  );
+
+}
+
+// =========================
+// PDF
+// =========================
+
+downloadOverviewPDF(): void {
+
+  const doc = new jsPDF();
+
+  autoTable(doc, {
+
+    head: [[
+      'Item',
+      'IN',
+      'OUT',
+      'Stock',
+      'Status'
+    ]],
+
+    body:
+      this.filteredOverview.map(
+
+        item => [
+
+          item.itemName,
+
+          item.qin,
+
+          item.qout,
+
+          item.qtotal,
+
+          item.status
+
+        ]
+
+      )
+
+  });
+
+  doc.save(
+    'item-stock-overview.pdf'
+  );
+
+}
+
+downloadPDF(): void {
+
+  const doc = new jsPDF();
+
+  autoTable(doc, {
+
+    head: [[
+      'Item',
+      'IN',
+      'OUT',
+      'Stock',
+      'Status'
+    ]],
+
+    body:
+      this.filteredStock.map(
+
+        item => [
+
+          item.itemName,
+
+          item.qin,
+
+          item.qout,
+
+          item.qtotal,
+
+          // stock_movement status, not the computed stock level
+          item.movementStatus
+
+        ]
+
+      )
+
+  });
+
+  doc.save(
+    'monthly-stock-report.pdf'
+  );
+
+}
+
+// =========================
+// NOTIFICATIONS
+// =========================
+
+private loadNotifications(): void {
+
+  this.stockService
+    .getMovements()
+    .subscribe(movements => {
+
+      const approved =
+        movements.filter(
+          m =>
+            m.status === 'APPROVED'
+        ).length;
+
+      const pending =
+        movements.filter(
+          m =>
+            m.status === 'PENDING'
+        ).length;
 
       this.notifications = [
-        approved ? `✅ ${approved} approved` : 'No approvals',
-        pending ? `⏳ ${pending} pending` : '',
+
+        approved
+          ? `✅ ${approved} approved`
+          : 'No approvals',
+
+        pending
+          ? `⏳ ${pending} pending`
+          : '',
+
         '📊 Stock updated'
-      ].filter(Boolean);
+
+      ].filter(Boolean) as string[];
+
     });
-  }
+
+}
+
 }

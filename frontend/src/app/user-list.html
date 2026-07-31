@@ -3,7 +3,7 @@
   <div class="header">
     <h3>👥 User Management</h3>
 
-    <a routerLink="/user-form" class="btn-primary">
+    <a routerLink="/register" class="btn-primary">
       ➕ New User
     </a>
   </div>
@@ -30,7 +30,7 @@
 
         <td class="actions">
           <a
-            [routerLink]="['/user-form']"
+            [routerLink]="['/register']"
             [queryParams]="{id: u['id']}"
             class="edit-btn"
           >

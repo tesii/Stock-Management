@@ -10,45 +10,96 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository repo;
+    private final AuditService auditService;
 
-    public ItemService(ItemRepository repo) {
+    public ItemService(ItemRepository repo, AuditService auditService) {
         this.repo = repo;
+        this.auditService = auditService;
     }
 
+    // ================= GET ALL =================
     public List<Item> getAll() {
         return repo.findAll();
     }
 
+    // ================= CREATE =================
     public Item create(Item item) {
-        return repo.save(item);
+
+        Item saved = repo.save(item);
+
+        auditService.log(
+                "admin",
+                  "ADMIN",
+                "CREATE_ITEM",
+                "Item",
+                saved.getId(),
+                "Created item: " + saved.getName()
+        );
+
+        return saved;
     }
 
+    // ================= GET BY ID =================
     public Item getById(Long id) {
         return repo.findById(id).orElse(null);
     }
 
-    public void delete(Long id) {
-        repo.deleteById(id);
-    }
+    // ================= UPDATE =================
     public Item update(Long id, Item newItem) {
 
-    Item item = repo.findById(id).orElse(null);
+        Item item = repo.findById(id).orElse(null);
 
-    if (item == null) {
-        return null;
+        if (item == null) {
+            return null;
+        }
+
+        item.setName(newItem.getName());
+        item.setQuantity(newItem.getQuantity());
+        item.setUnit(newItem.getUnit());
+        item.setUnitPrice(newItem.getUnitPrice());
+        item.setMinStockLevel(newItem.getMinStockLevel());
+
+        Item updated = repo.save(item);
+
+        auditService.log(
+                "admin",
+                  "ADMIN",
+                "UPDATE_ITEM",
+                "Item",
+                updated.getId(),
+                "Updated item: " + updated.getName()
+        );
+
+        return updated;
     }
 
-    item.setName(newItem.getName());
-    item.setQuantity(newItem.getQuantity());
-    item.setUnit(newItem.getUnit());
-    item.setUnitPrice(newItem.getUnitPrice());
+    // ================= DELETE =================
+    public void delete(Long id) {
 
-    return repo.save(item);
-}
-public List<Item> getLowStockItems() {
-    return repo.findAll()
-        .stream()
-        .filter(i -> i.getQuantity() <= i.getMinStockLevel())
-        .toList();
-}
+        Item item = repo.findById(id).orElse(null);
+
+        if (item == null) {
+            return;
+        }
+
+        repo.deleteById(id);
+
+        auditService.log(
+                "admin",
+                  "ADMIN",
+                "DELETE_ITEM",
+                "Item",
+                id,
+                "Deleted item: " + item.getName()
+        );
+    }
+
+    // ================= LOW STOCK =================
+    public List<Item> getLowStockItems() {
+
+        return repo.findAll()
+                .stream()
+                .filter(i -> i.getQuantity() <= i.getMinStockLevel())
+                .toList();
+    }
 }

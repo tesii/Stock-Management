@@ -1,12 +1,21 @@
 <div class="store-dashboard">
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
 
-    <div class="sidebar-brand">
-      <i class="ti ti-building-store"></i>
-      <span>InstaPlus Service Ltd</span>
-    </div>
+<button class="sidebar-toggle" (click)="toggleSidebar()">
+  ☰
+</button>
+    <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+
+ <div class="sidebar-brand">
+
+
+
+  <span *ngIf="!sidebarCollapsed">
+    InstaPlus Service Ltd
+  </span>
+
+</div>
 
     <p class="sidebar-role">Store Keeper</p>
 
@@ -29,7 +38,7 @@
 
     <button class="logout-btn" (click)="logout()">
       <i class="ti ti-logout"></i>
-      Logout
+      <span *ngIf="!sidebarCollapsed">Logout</span>
     </button>
 
   </aside>
@@ -38,37 +47,92 @@
   <main class="main">
 
     <!-- DASHBOARD -->
-    <div *ngIf="currentView === 'dashboard'">
+<!-- DASHBOARD -->
+<div *ngIf="currentView === 'dashboard'">
 
-      <div class="dashboard-hero">
+  <!-- WELCOME SECTION -->
+  <div class="dashboard-welcome">
 
-        <div>
-          <p class="welcome-label">Store Keeper Portal</p>
-          <h2>Welcome, {{ userName }}</h2>
-          <p>Here's a snapshot of today's activity.</p>
-        </div>
+    <div>
+      <p class="welcome-label">
+        Store Keeper Portal
+      </p>
+
+      <h2>
+        Welcome, {{ userName }}
+      </h2>
+
+      <p>
+        Here's a snapshot of today's stock activity.
+      </p>
+    </div>
+
+   
+
+  </div>
+
+
+  <!-- DASHBOARD CARDS -->
+  <div class="dashboard-cards">
+
+
+    <div class="dashboard-card blue">
+
+      <i class="ti ti-package"></i>
+
+      <div>
+        <h4>Total Items</h4>
+        <p>{{ totalItems }}</p>
+      </div>
+
+    </div>
+
+
+
+    <div class="dashboard-card green">
+
+      <i class="ti ti-arrow-up"></i>
+
+      <div>
+        <h4>Stock IN</h4>
+        <p>{{ totalStockIn }}</p>
+      </div>
+
+    </div>
+
+
+
+    <div class="dashboard-card yellow">
+
+      <i class="ti ti-arrow-down"></i>
+
+      <div>
+        <h4>Stock OUT</h4>
+        <p>{{ totalStockOut }}</p>
+      </div>
+
+    </div>
+
+
+
+    <div class="dashboard-card red">
+
+      <i class="ti ti-alert-triangle"></i>
+
+      <div>
+        <h4>Low Stock</h4>
+        <p>{{ lowStockCount }}</p>
+      </div>
+
+    </div>
+
+
+  
+
+
 
         <!-- NOTIFICATIONS -->
-        <div class="notification-area">
-
-          <button class="notification-btn" (click)="toggleNotifications()">
-            🔔 Notifications
-
-            <span class="notification-badge" *ngIf="notificationCount > 0">
-              {{ notificationCount }}
-            </span>
-          </button>
-
-          <div class="notification-panel" *ngIf="showNotifications">
-            <h3>Notifications</h3>
-            <ul>
-              <li *ngFor="let n of notifications">
-                {{ n }}
-              </li>
-            </ul>
-          </div>
-
-        </div>
+      
 
       </div>
 
@@ -170,69 +234,220 @@
 
       </div>
 
-      <!-- DOWNLOAD BUTTON -->
-      <div class="summary-actions">
-        <button class="download-btn" (click)="downloadPDF()">
-          📥 Download Monthly Summary (PDF)
+      <!-- ✅ NEW: TABS -->
+      <div class="summary-tabs">
+
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="summaryTab === 'overview'"
+          (click)="setSummaryTab('overview')">
+          📦 Item Overview
         </button>
-      </div>
 
-      <!-- TABLE -->
-      <div class="weekly-report">
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>QIN</th>
-              <th>QOUT</th>
-              <th>Stock Left</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-           <tr *ngFor="let s of paginatedStock"
-    [ngClass]="s.status.toLowerCase()">
-
-              <td>{{ s.itemName }}</td>
-              <td>{{ s.qin }}</td>
-              <td>{{ s.qout }}</td>
-              <td>
-                <span class="stock-badge" [ngClass]="s.status">
-                  {{ s.qtotal }}
-                </span>
-              </td>
-              <td>{{ s.status }}</td>
-
-            </tr>
-
-            <tr *ngIf="paginatedStock.length === 0">
-              <td colspan="5">No stock data available.</td>
-            </tr>
-
-          </tbody>
-
-        </table>
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="summaryTab === 'detailed'"
+          (click)="setSummaryTab('detailed')">
+          📋 Detailed Report
+        </button>
 
       </div>
 
-      <!-- PAGINATION -->
-      <div class="pagination" *ngIf="stockSummary.length > pageSize">
+      <!-- ✅ TAB 1: ITEM STOCK OVERVIEW -->
+      <!-- ✅ TAB 1: ITEM STOCK OVERVIEW -->
+      <div class="tab-panel" *ngIf="summaryTab === 'overview'">
 
-        <button (click)="prevPage()" [disabled]="currentPage === 1">
-          ◀ Previous
-        </button>
+        <!-- SEARCH + DOWNLOAD -->
+        <div class="filter-bar">
 
-        <span>
-          Page {{ currentPage }} / {{ totalPages }}
-        </span>
+          <label for="overviewSearch">🔍 Search Item</label>
 
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages">
-          Next ▶
-        </button>
+          <input
+            id="overviewSearch"
+            type="text"
+            placeholder="Search by item name..."
+            [(ngModel)]="overviewSearchTerm"
+            (input)="onOverviewSearch()" />
+
+          <button
+            type="button"
+            class="clear-filter-btn"
+            *ngIf="overviewSearchTerm"
+            (click)="clearOverviewSearch()">
+            ✕ Clear Search
+          </button>
+
+          <button class="download-btn" (click)="downloadOverviewPDF()">
+            📥 Download PDF
+          </button>
+
+        </div>
+
+        <div class="weekly-report">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>QIN</th>
+                <th>QOUT</th>
+                <th>Qtotal</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let s of paginatedOverview" [ngClass]="s.status.toLowerCase()">
+                <td>{{ s.itemName }}</td>
+                <td>{{ s.qin }}</td>
+                <td>{{ s.qout }}</td>
+                <td>
+                  <span class="stock-badge" [ngClass]="s.status">
+                    {{ s.qtotal }}
+                  </span>
+                </td>
+              </tr>
+
+              <tr *ngIf="paginatedOverview.length === 0">
+                <td colspan="4">No stock data available.</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination" *ngIf="filteredOverview.length > overviewPageSize">
+
+          <button (click)="overviewPrevPage()" [disabled]="overviewCurrentPage === 1">
+            ◀ Previous
+          </button>
+
+          <span>
+            Page {{ overviewCurrentPage }} / {{ overviewTotalPages }}
+          </span>
+
+          <button (click)="overviewNextPage()" [disabled]="overviewCurrentPage === overviewTotalPages">
+            Next ▶
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- ✅ TAB 2: DETAILED REPORT (filters + table + pagination + PDF) -->
+      <div class="tab-panel" *ngIf="summaryTab === 'detailed'">
+
+        <!-- SITE + DATE FILTERS -->
+        <div class="filter-bar">
+
+          <label> Site</label>
+
+          <select [(ngModel)]="selectedSite" (change)="onSiteChange()">
+
+            <option value="">
+              All Sites
+            </option>
+
+            <option
+              *ngFor="let site of sites"
+              [value]="site.siteName">
+
+              {{ site.siteName }}
+
+            </option>
+
+          </select>
+
+          <label for="dateFilter">📆 Date</label>
+
+          <input
+            id="dateFilter"
+            type="date"
+            [(ngModel)]="selectedDate"
+            (change)="onDateChange()" />
+
+          <button
+            type="button"
+            class="clear-filter-btn"
+            *ngIf="selectedDate"
+            (click)="clearDateFilter()">
+            ✕ Clear Date
+          </button>
+
+        </div>
+
+        <!-- DOWNLOAD BUTTON -->
+        <div class="summary-actions">
+          <button class="download-btn" (click)="downloadPDF()">
+            📥 Download Monthly Summary (PDF)
+          </button>
+        </div>
+
+        <!-- TABLE -->
+        <div class="weekly-report">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Item</th>
+                <th>Site</th>
+                <th>QOUT</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let s of paginatedStock"
+                  [ngClass]="s.status.toLowerCase()">
+                <td>{{ s.date | date:'yyyy-MM-dd' }}</td>
+                <td>{{ s.itemName }}</td>
+                <td>{{ s.siteName }}</td>
+                <td>{{ s.qout }}</td>
+                <td>
+                  <!-- Shows the status from the stock_movement table
+                       (e.g. APPROVED / PENDING / REJECTED),
+                       not the computed low/average/high stock level -->
+                  <span class="stock-badge movement-status" [ngClass]="s.movementStatus.toLowerCase()">
+                    {{ s.movementStatus }}
+                  </span>
+                </td>
+              </tr>
+
+              <tr *ngIf="paginatedStock.length === 0">
+                <td colspan="5">No stock data available.</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination" *ngIf="filteredStock.length > pageSize">
+
+          <button (click)="prevPage()" [disabled]="currentPage === 1">
+            ◀ Previous
+          </button>
+
+          <span>
+            Page {{ currentPage }} / {{ totalPages }}
+          </span>
+
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+            Next ▶
+          </button>
+
+        </div>
 
       </div>
 

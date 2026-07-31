@@ -2,6 +2,7 @@ package com.instaplus.stock_mvp.Controller;
 
 import com.instaplus.stock_mvp.Model.User;
 import com.instaplus.stock_mvp.Service.UserService;
+import com.instaplus.stock_mvp.Model.LoginResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +17,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
+    public LoginResponse login(@RequestBody User user) {
         return service.login(user.getUsername(), user.getPassword());
     }
 

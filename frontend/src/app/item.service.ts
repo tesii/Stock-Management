@@ -9,6 +9,10 @@ export interface Item {
   quantity: number;
   unit: string;
   unitPrice: number;
+    currentStock?: number;
+  availableQuantity?: number;
+    stock?: number;
+
 
   // ✅ NEW FIELD
   minStockLevel: number;

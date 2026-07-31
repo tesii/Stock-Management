@@ -2,14 +2,14 @@
   display: block;
   padding: 30px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #e6f7f9, #f5fdfd);
+  background: linear-gradient(135deg, #cfe5ef, #f5fdfd);
   min-height: 100vh;
 }
 
 /* Title */
 h2 {
   text-align: center;
-  color: #0f766e;
+  color: #1b93c9;
   margin-bottom: 25px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -23,7 +23,7 @@ h2 {
   padding: 20px;
   border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  border-top: 5px solid #14b8a6;
+  border-top: 5px solid #1b93c9;
   overflow-x: auto;
 }
 
@@ -37,7 +37,7 @@ table {
 
 /* Table head */
 thead {
-  background: linear-gradient(135deg, #14b8a6, #0f766e);
+  background: linear-gradient(135deg, #1b93c9, #1b93c9);
   color: white;
 }
 
@@ -75,13 +75,13 @@ button {
 
 /* Approve button */
 button:first-child {
-  background: #14b8a6;
+  background: #1b93c9;
   color: white;
   margin-right: 6px;
 }
 
 button:first-child:hover {
-  background: #0f766e;
+  background: #1b93c9;
   transform: translateY(-1px);
 }
 
@@ -99,5 +99,5 @@ button:last-child:hover {
 /* Status styling (optional enhancement) */
 td:nth-child(6) {
   font-weight: 600;
-  color: #0f766e;
+  color: #1b93c9;
 }

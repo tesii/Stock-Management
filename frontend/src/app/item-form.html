@@ -1,29 +1,59 @@
 <div class="form-container">
-  <h2>➕ Add Item</h2>
+ <button type="button" class="back-btn" (click)="goBack()">
+  ← Back to Dashboard
+</button>
+  <div class="form-header">
+    <h2>Add Item</h2>
+    <p class="form-subtitle">Register a new item into inventory</p>
+  </div>
 
   <form (ngSubmit)="saveItem()">
 
-    <label>Name</label>
-    <input [(ngModel)]="item.name" name="name">
+    <div class="field-group">
+      <label>Name</label>
+      <input [(ngModel)]="item.name" name="name" placeholder="e.g. Cement 50kg bag">
+    </div>
 
-    <label>Quantity</label>
-    <input type="number" [(ngModel)]="item.quantity" name="quantity">
+    <div class="field-row">
+     <div class="field-group">
+  <label>Quantity</label>
+  <input 
+    type="number" 
+    min="0"
+    [(ngModel)]="item.quantity" 
+    name="quantity" 
+    placeholder="0">
+</div>
 
-    <label>Unit</label>
-    <input [(ngModel)]="item.unit" name="unit">
+      <div class="field-group">
+        <label>Unit</label>
+        <input [(ngModel)]="item.unit" name="unit" placeholder="e.g. bags, litres">
+      </div>
+    </div>
 
-    <label>Unit Price</label>
-    <input type="number" [(ngModel)]="item.unitPrice" name="unitPrice">
+    <div class="field-row">
+     <div class="field-group">
+  <label>Unit Price</label>
+  <input 
+    type="number" 
+    min="0"
+    [(ngModel)]="item.unitPrice" 
+    name="unitPrice" 
+    placeholder="0.00">
+</div>
+      <!-- ✅ NEW FIELD -->
+      <div class="field-group">
+        <label>Min Stock Level</label>
+        <input 
+          type="number" 
+          min="0"
+          [(ngModel)]="item.minStockLevel" 
+          name="minStockLevel" 
+          placeholder="0">
+      </div>
+    </div>
 
-    <!-- ✅ NEW FIELD -->
-    <label>Min Stock Level</label>
-    <input
-      type="number"
-      [(ngModel)]="item.minStockLevel"
-      name="minStockLevel"
-    >
-
-    <button type="submit">Save</button>
+    <button type="submit" class="save-btn">Save Item</button>
 
   </form>
 </div>

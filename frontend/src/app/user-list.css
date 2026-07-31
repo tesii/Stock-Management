@@ -19,7 +19,7 @@
 
 /* ================= ADD BUTTON ================= */
 .btn-primary {
-  background: #14b8a6; /* teal */
+  background: #1b93c9; /* teal */
   color: white;
   padding: 10px 14px;
   border-radius: 8px;
@@ -30,7 +30,7 @@
 }
 
 .btn-primary:hover {
-  background: #0d9488;
+  background: #1b93c9;
   transform: translateY(-1px);
 }
 
@@ -46,7 +46,7 @@
 
 /* HEADER */
 .users-table thead {
-  background: #14b8a6;
+  background: #1b93c9;
   color: white;
 }
 
@@ -75,8 +75,8 @@
 .role-badge {
   padding: 5px 10px;
   border-radius: 20px;
-  background: #ccfbf1;
-  color: #0f766e;
+  background: #c0e2f2;
+  color: #1b93c9;
   font-weight: 600;
   font-size: 12px;
 }

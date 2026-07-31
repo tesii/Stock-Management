@@ -7,18 +7,44 @@ import { AuthService } from './auth.service';
 })
 export class AuthGuard implements CanActivate {
 
+
   constructor(
-    private auth: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
-  canActivate(): boolean {
 
-    if (this.auth.isLoggedIn()) {
-      return true;
-    }
 
-    this.router.navigate(['/']);
-    return false;
-  }
+ canActivate(route:any) {
+
+
+ const user = this.authService.getUser();
+
+
+ if(!user){
+
+   return this.router.createUrlTree(['/login']);
+
+ }
+
+
+ const roles = route.data?.roles;
+
+
+ if(roles && !roles.includes(user.role)){
+
+
+   this.authService.logout();
+
+   return this.router.createUrlTree(['/login']);
+
+ }
+
+
+ return true;
+
 }
+
+
+
+};

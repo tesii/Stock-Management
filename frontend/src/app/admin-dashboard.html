@@ -14,7 +14,7 @@
     User Management
   </a>
 
-  <a (click)="setView('user-form')" [class.active]="currentView === 'user-form'">
+  <a (click)="setView('register')" [class.active]="currentView === 'register'">
     Create User
   </a>
 
@@ -25,7 +25,9 @@
   <a (click)="setView('stock')" [class.active]="currentView === 'stock'">
     Stock Purchase
   </a>
-
+  <a (click)="setView('site')" [class.active]="currentView === 'site'">
+     Sites Management
+  </a>
   <a (click)="setView('metrics')" [class.active]="currentView === 'metrics'">
     System Analytics
   </a>
@@ -45,10 +47,8 @@
 
       <div>
         <p class="welcome-label">Administrator Access</p>
-        <h2>Welcome, {{ userName }} 👋</h2>
-        <p>
-          Full system control panel for users, inventory, approvals, and operational monitoring.
-        </p>
+        <h2>Welcome, {{ userName }} </h2>
+      
       </div>
 
       <!-- 🔔 NOTIFICATION BADGE (for click-based system) -->
@@ -81,8 +81,8 @@
       <app-user-list></app-user-list>
     </div>
 
-    <div *ngIf="currentView === 'user-form'" class="view-section">
-      <app-user-form></app-user-form>
+    <div *ngIf="currentView === 'register'" class="view-section">
+      <app-staff-register></app-staff-register>
     </div>
 
    
@@ -95,6 +95,9 @@
       <app-stock-movement></app-stock-movement>
     </div>
 
+     <div *ngIf="currentView === 'site'" class="view-section">
+      <app-site></app-site>
+    </div>
     <!-- ================= SYSTEM ANALYTICS ================= -->
     <div *ngIf="currentView === 'metrics'" class="view-section admin-metrics">
 

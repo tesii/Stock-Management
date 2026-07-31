@@ -12,7 +12,7 @@
 
     <div class="card">
       <h3>Total Value</h3>
-      <p>{{ totalValue }}</p>
+      <p>{{ totalValue | number:'1.0-2' }}</p>
     </div>
 
     <div class="card">
@@ -30,7 +30,9 @@
       [(ngModel)]="searchText"
     />
   </div>
-
+<button class="add-btn" (click)="addItem()">
+    + Add Item
+</button>
   <!-- ================= TABLE ================= -->
   <table>
 

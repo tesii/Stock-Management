@@ -11,19 +11,22 @@
         <th>Quantity</th>
         <th>Site</th>
         <th>Date</th>
+        <th>Note</th>
         <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let m of pending">
+      <tr *ngFor="let m of paginatedPending">
 
-        <td>{{ m.itemId }}</td>
+        <td>{{ getItemName(m.itemId) }}</td>
         <td>{{ m.type }}</td>
         <td>{{ m.quantity }}</td>
-        <td>{{ m.site }}</td>
+        <td>{{ m.site?.siteName || '—' }}</td>
         <td>{{ m.date }}</td>
+        <td>{{ m.note }}</td>
+
         <td>{{ m.status }}</td>
 
         <td>
@@ -34,8 +37,32 @@
         </td>
 
       </tr>
+
+      <tr *ngIf="pending.length === 0">
+        <td colspan="7" style="text-align:center; color:#94a3b8; font-style:italic;">
+          No pending approvals
+        </td>
+      </tr>
+
     </tbody>
 
   </table>
+
+  <!-- PAGINATION -->
+  <div class="pagination" *ngIf="pending.length > pageSize">
+
+    <button (click)="prevPage()" [disabled]="currentPage === 1">
+      ◀ Previous
+    </button>
+
+    <span>
+      Page {{ currentPage }} / {{ totalPages }}
+    </span>
+
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Next ▶
+    </button>
+
+  </div>
 
 </div>

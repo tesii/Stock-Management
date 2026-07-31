@@ -10,11 +10,21 @@
   font-family: 'Outfit', sans-serif;
   overflow: hidden;
 }
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
 
+.success-message {
+  color: green;
+  margin-top: 10px;
+  font-size: 14px;
+}
 /* ── LEFT PANEL ──────────────────────────────────────────── */
 .ip-left {
   flex: 1;
-  background: #f4f6f5;
+  background: #fff;
   padding: 56px 52px;
   display: flex;
   flex-direction: column;
@@ -26,29 +36,39 @@
   display: flex;
   align-items: center;
   gap: 11px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
-.ip-logo-box {
-  width: 40px;
+/* .ip-logo-box {
+  width: 20px;
   height: 40px;
   border-radius: 11px;
-  background: #0d5c4a;
+  background: #0a4a6e url('/src/images/insta-logo.jpg') center / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   animation: ipLogoBeat 2.5s ease-in-out infinite;
+} */
+
+
+.ip-logo-img {
+  width: 60%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 11px;
+  display: block;
 }
 
 @keyframes ipLogoBeat {
-  0%,100% { box-shadow: 0 0 0 0   rgba(13,92,74,0.35); }
-  50%     { box-shadow: 0 0 0 9px rgba(13,92,74,0);    }
+  0%,100% { box-shadow: 0 0 0 0   rgba(10,74,110,0.35); }
+  50%     { box-shadow: 0 0 0 9px rgba(10,74,110,0);    }
 }
 
 .ip-brand-name {
   font-size: 18px;
   font-weight: 800;
-  color: #0d2e26;
+  color: #0a2a40;
   letter-spacing: -0.3px;
   line-height: 1.2;
 }
@@ -57,7 +77,7 @@
   display: block;
   font-size: 10.5px;
   font-weight: 600;
-  color: #14c8a0;
+  color: #1b93c9;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 1px;
@@ -67,7 +87,7 @@
 .ip-heading {
   font-size: 30px;
   font-weight: 800;
-  color: #0d2e26;
+  color: #0a2a40;
   letter-spacing: -0.6px;
   margin-bottom: 10px;
 }
@@ -75,7 +95,7 @@
 .ip-underline {
   width: 40px;
   height: 3px;
-  background: #14c8a0;
+  background: #1b93c9;
   border-radius: 2px;
   margin-bottom: 12px;
   animation: ipGrowLine 0.6s ease both 0.3s;
@@ -88,7 +108,7 @@
 
 .ip-sub {
   font-size: 14px;
-  color: #6b8a81;
+  color: #5c7d91;
   font-weight: 400;
   margin-bottom: 32px;
 }
@@ -102,7 +122,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #4a7a6e;
+  color: #3f6d85;
   margin-bottom: 7px;
 }
 
@@ -113,7 +133,7 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #a0b8b2;
+  color: #9bb8c9;
   font-size: 17px;
   pointer-events: none;
   transition: color 0.2s;
@@ -124,9 +144,9 @@
   box-sizing: border-box;
   padding: 13px 16px 13px 44px;
   background: #fff;
-  border: 1.5px solid #d8e8e4;
+  border: 1.5px solid #d3e4ec;
   border-radius: 12px;
-  color: #0d2e26;
+  color: #0a2a40;
   font-size: 14.5px;
   font-family: 'Outfit', sans-serif;
   font-weight: 400;
@@ -134,21 +154,21 @@
   transition: all 0.22s;
 }
 
-.ip-input::placeholder { color: #b0c8c2; }
+.ip-input::placeholder { color: #a8c4d4; }
 
 .ip-input:focus {
-  border-color: #14c8a0;
-  box-shadow: 0 0 0 4px rgba(20, 200, 160, 0.12);
+  border-color: #1b93c9;
+  box-shadow: 0 0 0 4px rgba(27, 147, 201, 0.12);
 }
 
-.ip-input:focus + .ip-inp-icon { color: #14c8a0; }
+.ip-input:focus + .ip-inp-icon { color: #1b93c9; }
 
 .ip-inp-border {
   position: absolute;
   bottom: 0; left: 0;
   height: 2px;
   width: 0;
-  background: linear-gradient(90deg, #14c8a0, #0d9e78);
+  background: linear-gradient(90deg, #1b93c9, #146f9c);
   border-radius: 0 0 2px 2px;
   transition: width 0.3s ease;
   pointer-events: none;
@@ -169,7 +189,7 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #4a7a6e;
+  color: #3f6d85;
   cursor: pointer;
   user-select: none;
 }
@@ -178,7 +198,7 @@
   width: 16px;
   height: 16px;
   border-radius: 4px;
-  border: 1.5px solid #b0d0c8;
+  border: 1.5px solid #a8cbe0;
   background: #fff;
   appearance: none;
   -webkit-appearance: none;
@@ -188,13 +208,13 @@
 }
 
 .ip-chk:checked {
-  background: #14c8a0;
-  border-color: #14c8a0;
+  background: #1b93c9;
+  border-color: #1b93c9;
 }
 
 .ip-forgot {
   font-size: 13px;
-  color: #14c8a0;
+  color: #1b93c9;
   text-decoration: none;
   font-weight: 600;
   transition: opacity 0.2s;
@@ -208,7 +228,7 @@
   padding: 14px;
   border: none;
   border-radius: 12px;
-  background: #0d5c4a;
+  background: #0a4a6e;
   color: #fff;
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
@@ -222,7 +242,7 @@
 }
 
 .ip-btn:hover {
-  background: #0a4a3b;
+  background: #073a57;
   transform: translateY(-2px);
 }
 
@@ -273,11 +293,11 @@
   margin-top: 22px;
   text-align: center;
   font-size: 13.5px;
-  color: #6b8a81;
+  color: #5c7d91;
 }
 
 .ip-foot a {
-  color: #0d5c4a;
+  color: #0a4a6e;
   font-weight: 700;
   text-decoration: none;
 }
@@ -287,7 +307,7 @@
 /* ── RIGHT PANEL ─────────────────────────────────────────── */
 .ip-right {
   width: 46%;
-  background: #0d5c4a;
+  background: #0a4a6e;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -329,7 +349,7 @@
 .ip-rp-glow {
   position: absolute;
   width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(20,200,160,0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(27,147,201,0.2) 0%, transparent 70%);
   top: -60px; right: -80px;
   border-radius: 50%;
   pointer-events: none;
@@ -338,7 +358,7 @@
 .ip-rp-glow2 {
   position: absolute;
   width: 220px; height: 220px;
-  background: radial-gradient(circle, rgba(20,200,160,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(27,147,201,0.15) 0%, transparent 70%);
   bottom: -50px; left: -40px;
   border-radius: 50%;
   pointer-events: none;
@@ -421,15 +441,15 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #14c8a0;
+  background: #1b93c9;
   margin-right: 7px;
   vertical-align: middle;
   animation: ipDotBlink 1.8s ease-in-out infinite;
 }
 
 @keyframes ipDotBlink {
-  0%,100% { opacity: 1; box-shadow: 0 0 0 0   rgba(20,200,160,0.5); }
-  50%     { opacity: 0.5; box-shadow: 0 0 0 5px rgba(20,200,160,0); }
+  0%,100% { opacity: 1; box-shadow: 0 0 0 0   rgba(27,147,201,0.5); }
+  50%     { opacity: 0.5; box-shadow: 0 0 0 5px rgba(27,147,201,0); }
 }
 
 /* ── Responsive ──────────────────────────────────────────── */

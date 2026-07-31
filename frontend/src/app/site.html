@@ -1,0 +1,83 @@
+<div class="site-container">
+
+  <div class="header">
+
+    <h2>Sites Management</h2>
+
+    <button class="add-btn" (click)="goToAddSite()">
+      + Add New Site
+    </button>
+
+  </div>
+
+  <!-- Search -->
+  <div class="search-box">
+    <input
+      type="text"
+      placeholder="Search site..."
+      [(ngModel)]="searchText"
+      (input)="searchSites()">
+  </div>
+
+  <!-- Sites Table -->
+  <table>
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Site Name</th>
+        <th>Contact Person</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let site of filteredSites">
+
+        <td>{{ site.id }}</td>
+        <td>{{ site.siteName }}</td>
+        <td>{{ site.contactPerson }}</td>
+        <td>{{ site.phone }}</td>
+        <td>{{ site.address }}</td>
+
+        <td>
+          <span
+            [class.active]="site.active"
+            [class.inactive]="!site.active">
+            {{ site.active ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+
+        <td class="actions">
+
+          <button
+            class="edit-btn"
+            (click)="editSite(site.id!)">
+            Update
+          </button>
+
+          <button
+            class="delete-btn"
+            (click)="deleteSite(site.id!)">
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+      <tr *ngIf="filteredSites.length === 0">
+        <td colspan="7" class="empty">
+          No sites found
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

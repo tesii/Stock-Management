@@ -16,13 +16,53 @@ body {
   padding: 18px;
   min-height: 100vh;
 
-  background: linear-gradient(135deg, #e6fffb, #f8fafc);
+  background: #fff;
 }
 
+
+/* ================= TOP SITE CALLOUT ================= */
+.top-site-card {
+  background: linear-gradient(135deg, #1b93c9, #1b2559);
+  color: #ffffff;
+  padding: 22px 24px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 15px 35px rgba(27, 147, 201, 0.3);
+}
+
+.top-site-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.top-site-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.top-site-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* highlight the #1 row in the table too */
+.report-table tr.rank-first td {
+  background: #eef8fa !important;
+  font-weight: 700;
+  color: #146f9c;
+}
 /* ================= SIDEBAR ================= */
 .sidebar {
   width: 240px;
-  background: linear-gradient(180deg, #0f766e, #134e4a);
+  background:  #1b93c9;
   color: white;
 
   padding: 22px;
@@ -105,9 +145,9 @@ body {
   padding: 22px;
   border-radius: 16px;
 
-  background: linear-gradient(135deg, #ecfeff, #e0f2fe);
+  background: linear-gradient(135deg, #eef8fa, #e3f2fa);
 
-  box-shadow: inset 0 0 0 1px rgba(20,184,166,0.15);
+  box-shadow: inset 0 0 0 1px rgba(27,147,201,0.15);
   margin-bottom: 20px;
 }
 
@@ -126,11 +166,11 @@ body {
   padding: 10px 14px;
   border-radius: 999px;
 
-  background: #14b8a6;
+  background: #1b93c9;
   color: white;
 
   font-weight: 600;
-  box-shadow: 0 10px 20px rgba(20,184,166,0.25);
+  box-shadow: 0 10px 20px rgba(27,147,201,0.25);
 }
 
 /* ================= NOTIFICATIONS ================= */
@@ -153,7 +193,7 @@ body {
   background: white;
   border-radius: 12px;
 
-  border-left: 4px solid #14b8a6;
+  border-left: 4px solid #1b93c9;
 
   transition: 0.2s;
 }
@@ -186,13 +226,67 @@ body {
 
 .report-controls select:focus {
   outline: none;
-  border-color: #14b8a6;
-  box-shadow: 0 0 0 3px rgba(20,184,166,0.15);
+  border-color: #1b93c9;
+  box-shadow: 0 0 0 3px rgba(27,147,201,0.15);
+}
+
+/* ================= FILTER BAR ================= */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin: 16px 0;
+}
+
+.filter-bar label {
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.9rem;
+}
+
+.filter-bar select,
+.filter-bar input[type="date"] {
+  padding: 9px 12px;
+  border-radius: 10px;
+
+  border: 1px solid #cbd5e1;
+  background: white;
+
+  min-width: 150px;
+  transition: 0.2s;
+}
+
+.filter-bar select:focus,
+.filter-bar input[type="date"]:focus {
+  outline: none;
+  border-color: #1b93c9;
+  box-shadow: 0 0 0 3px rgba(27,147,201,0.15);
+}
+
+.clear-filter-btn {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 10px;
+
+  background: #fee2e2;
+  color: #b91c1c;
+
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clear-filter-btn:hover {
+  background: #fecaca;
+  transform: scale(1.05);
 }
 
 /* ================= BUTTON ================= */
 .download-btn {
-  background: linear-gradient(135deg, #14b8a6, #0f766e);
+  background: linear-gradient(135deg, #1b93c9, #146f9c);
   color: white;
 
   padding: 10px 14px;
@@ -224,7 +318,7 @@ body {
 }
 
 .report-table th {
-  background: #0f766e;
+  background: #146f9c;
   color: white;
 
   padding: 12px;
@@ -264,7 +358,7 @@ body {
 }
 
 .pagination button:hover {
-  background: #14b8a6;
+  background: #1b93c9;
   color: white;
 }
 
@@ -289,4 +383,206 @@ body {
 .chart-box canvas {
   width: 100% !important;
   height: 300px !important;
+}
+
+/* ================= STOCK STATUS COLORS (BOLD) ================= */
+/* Used by the Item Overview tab. The Detailed Report table overrides
+   these back to a single color further below via .detailed-report-table */
+
+/* Row tint (subtle background per status, keeps table readable) */
+.report-table tr.low {
+  background-color: rgba(220, 38, 38, 0.07);
+}
+
+.report-table tr.average {
+  background-color: rgba(217, 119, 6, 0.07);
+}
+
+.report-table tr.high {
+  background-color: rgba(22, 163, 74, 0.06);
+}
+
+/* Qty badge — solid, high-contrast fills */
+.stock-badge {
+  display: inline-block;
+  min-width: 36px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.stock-badge.low {
+  background-color: #dc2626;
+  color: #ffffff;
+  border: 1px solid #b91c1c;
+}
+
+.stock-badge.average {
+  background-color: #eab308;
+  color: #1c1503;
+  border: 1px solid #ca8a04;
+}
+
+.stock-badge.high {
+  background-color: #16a34a;
+  color: #ffffff;
+  border: 1px solid #15803d;
+}
+
+/* Movement status badge (Detailed Report's stock_movement status) —
+   single unified color, not tied to low/average/high */
+.stock-badge.movement-status {
+  background-color: #1b93c9;
+  color: #ffffff;
+  border: 1px solid #146f9c;
+}
+
+/* Status text cell — bold, saturated, matches badge colors */
+.report-table td:last-child {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.report-table tr.low td:last-child {
+  color: #dc2626;
+}
+
+.report-table tr.average td:last-child {
+  color: #d97706;
+}
+
+.report-table tr.high td:last-child {
+  color: #16a34a;
+}
+
+/* ================= DETAILED REPORT: SINGLE COLOR OVERRIDE =================
+   The Detailed Report table shows the stock_movement status (APPROVED /
+   PENDING / REJECTED), not the low/average/high stock level, so its row
+   tint and status text are flattened to one unified color here. This is
+   scoped to .detailed-report-table only — Item Overview keeps its 3 colors. */
+
+.detailed-report-table tr.low,
+.detailed-report-table tr.average,
+.detailed-report-table tr.high {
+  background-color: rgba(27, 147, 201, 0.06);
+}
+
+.detailed-report-table tr.low td:last-child,
+.detailed-report-table tr.average td:last-child,
+.detailed-report-table tr.high td:last-child {
+  color: #146f9c;
+}
+/* ================= LOGO ================= */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ip-logo-img {
+  object-fit: contain;
+  border-radius: 4px;
+  background: #fff;
+  padding: 2px 6px;
+}
+
+.hero-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-title-group .ip-logo-img {
+  background: transparent;
+  padding: 0;
+}
+/* ================= SUMMARY TABS ================= */
+.summary-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0 4px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.tab-btn {
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: 0.2s;
+}
+
+.tab-btn:hover {
+  color: #1b93c9;
+}
+
+.tab-btn.active {
+  color: #1b93c9;
+  border-bottom-color: #1b93c9;
+}
+
+.tab-panel {
+  padding-top: 20px;
+}
+.sidebar {
+  width: 240px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+
+.sidebar a {
+  display: flex;
+  align-items:first baseline ;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+
+.sidebar-toggle {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+
+.sidebar {
+  position: relative;
+  width: 240px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar.collapsed .logout-btn {
+  justify-content: center;
+}
+
+
+.main {
+  transition: margin-left 0.3s ease;
 }

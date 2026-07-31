@@ -2,19 +2,9 @@
 
 <div class="form-container">
 
-  <!-- ITEM -->
-  <label>Item</label>
-  <select [(ngModel)]="form.itemId">
-    <option *ngFor="let item of items" [value]="item.id">
-      {{ item.name }}
-    </option>
-  </select>
-
-  <br><br>
-
   <!-- TYPE -->
   <label>Type</label>
-  <select [(ngModel)]="form.type">
+  <select [(ngModel)]="form.type" (ngModelChange)="onTypeOrQuantityChange()">
     <option value="IN">IN</option>
     <option value="OUT">OUT</option>
   </select>
@@ -22,20 +12,49 @@
   <br><br>
 
   <!-- QUANTITY -->
-  <label>Quantity</label>
-  <input type="number" [(ngModel)]="form.quantity">
+<label>Quantity</label>
+<input 
+  type="number" 
+  min="0"
+  [(ngModel)]="form.quantity" 
+  (ngModelChange)="onTypeOrQuantityChange()">
 
   <br><br>
 
-  <!-- DATE (NEW ⭐) -->
+  <!-- ITEM -->
+  <label>Item</label>
+  <select [(ngModel)]="form.itemId">
+    <option [value]="0" disabled>Select Item</option>
+    <option *ngFor="let item of filteredItems" [value]="item.id">
+      {{ item.name }}
+      <ng-container *ngIf="form.type === 'OUT'">(available: {{ item.quantity }})</ng-container>
+    </option>
+  </select>
+
+  <div *ngIf="form.type === 'OUT' && form.quantity > 0 && filteredItems.length === 0" class="warning">
+    No items have enough stock for this quantity.
+  </div>
+
+  <br><br>
+
+  <!-- DATE -->
   <label>Date</label>
   <input type="date" [(ngModel)]="form.date">
 
   <br><br>
 
   <!-- SITE -->
-  <label>Site (optional)</label>
-  <input type="text" [(ngModel)]="form.site">
+  <label>Site</label>
+  <select [(ngModel)]="form.site">
+    <option [ngValue]="null">
+      Select Site
+    </option>
+    <option
+      *ngFor="let site of sites"
+      [ngValue]="{id: site.id}">
+      {{ site.siteName }}
+    </option>
+  </select>
 
   <br><br>
 

@@ -1,0 +1,322 @@
+/* ================= WRAPPER ================= */
+.audit-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ================= HEADER ================= */
+.audit-header {
+  margin-bottom: 20px;
+}
+
+.audit-header h2 {
+  margin: 0;
+  color: #1b2559;
+  font-weight: 700;
+}
+
+.audit-subtitle {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 13.5px;
+}
+
+/* ================= FILTER BAR ================= */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.filter-bar input[type="text"] {
+  flex: 1;
+  min-width: 220px;
+  padding: 11px 14px;
+  border: 1.5px solid #d7e6ef;
+  border-radius: 10px;
+  background: #f8fbfd;
+  color: #0f172a;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.filter-bar select {
+  padding: 10px 12px;
+  border: 1.5px solid #d7e6ef;
+  border-radius: 10px;
+  background: #f8fbfd;
+  color: #1b2559;
+  font-size: 13.5px;
+  min-width: 150px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  outline: none;
+  border-color: #1b93c9;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(27, 147, 201, 0.15);
+}
+
+.clear-btn {
+  padding: 10px 18px;
+  border: 1.5px solid #d7e6ef;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.clear-btn:hover {
+  background: #eef2f6;
+  color: #1b2559;
+  border-color: #cbd5e1;
+}
+
+/* ================= RESULT COUNT ================= */
+.result-count {
+  font-size: 12.5px;
+  color: #94a3b8;
+  margin-bottom: 10px;
+  padding-left: 2px;
+}
+
+/* ================= TABLE ================= */
+.audit-table-wrapper {
+  border-radius: 14px;
+  overflow: auto;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  min-width: 950px;
+}
+
+thead {
+  background: linear-gradient(135deg, #1b93c9, #1b2559);
+}
+
+th {
+  padding: 12px 14px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
+  border: none;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+
+td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #eef2f6;
+  color: #1b2559;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+/* zebra striping — makes each row easier to track across columns */
+tbody tr:nth-child(even) {
+  background-color: #fafcfe;
+}
+
+tbody tr:hover td {
+  background-color: #eef8fa;
+  transition: 0.15s ease;
+}
+
+/* ================= COLUMN WIDTHS ================= */
+.col-time { width: 150px; }
+.col-user { width: 120px; }
+.col-role { width: 110px; }
+.col-action { width: 150px; }
+.col-entity { width: 110px; }
+.col-desc { min-width: 320px; }
+
+/* ================= TIMESTAMP ================= */
+.timestamp {
+  display: block;
+  font-weight: 600;
+  color: #1b2559;
+  font-size: 12.5px;
+}
+
+.timestamp-time {
+  display: block;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: #94a3b8;
+  font-size: 11.5px;
+  margin-top: 1px;
+}
+
+/* ================= USER ================= */
+.user-name {
+  font-weight: 600;
+  color: #1b2559;
+}
+
+/* ================= ROLE BADGE ================= */
+.role-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #eef8fa;
+  color: #146f9c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ================= ENTITY TAG ================= */
+.entity-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ================= ACTION BADGE ================= */
+.action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.action-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.action-success {
+  background: #dcfce7;
+  color: #166534;
+}
+.action-success::before {
+  background: #22c55e;
+}
+
+.action-danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.action-danger::before {
+  background: #ef4444;
+}
+
+.action-warning {
+  background: #fef9c3;
+  color: #854d0e;
+}
+.action-warning::before {
+  background: #eab308;
+}
+
+.action-default {
+  background: #e2e8f0;
+  color: #334155;
+}
+.action-default::before {
+  background: #64748b;
+}
+
+/* ================= DESCRIPTION ================= */
+.description-cell {
+  color: #475569;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+/* ================= EMPTY STATE ================= */
+.empty-row {
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 40px 20px;
+}
+
+.empty-row {
+  display: table-cell;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 28px;
+  margin-bottom: 8px;
+  font-style: normal;
+}
+
+/* ================= PAGINATION ================= */
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+
+.pagination button {
+  padding: 9px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 9px;
+  background: #eef8fa;
+  color: #1b93c9;
+  font-weight: 600;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #1b93c9;
+  color: white;
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 13.5px;
+  color: #475569;
+  font-weight: 600;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 700px) {
+  .filter-bar {
+    flex-direction: column;
+  }
+
+  .filter-bar input,
+  .filter-bar select {
+    width: 100%;
+  }
+}
